@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->string('activity_date');
+            $table->enum('activity_type', [
+                'sadnja',
+                'zalivanje',
+                'đubrenje',
+                'obrezivanje',
+                'berba',
+                'drugo'
+            ]);
             $table->timestamps();
         });
     }

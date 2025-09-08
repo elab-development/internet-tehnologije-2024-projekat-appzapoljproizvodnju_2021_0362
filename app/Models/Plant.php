@@ -22,6 +22,7 @@ class Plant extends Model
     ];
 
     protected $casts = [
+        'is_active'          => 'boolean',
         'planted_at'         => 'date',
         'last_watered_at'    => 'date',
         'next_watering_at'   => 'date',
@@ -29,5 +30,7 @@ class Plant extends Model
         'next_fertilizing_at'=> 'date',
     ];
 
-    public function user() { return $this->belongsTo(User::class); }
+    public function user() {
+         return $this->belongsTo(User::class);
+    }
 }

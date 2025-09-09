@@ -13,7 +13,17 @@ class PlantController extends Controller
      */
     public function index()
     {
-        $plants = Plant::where('user_id', request()->user()->id)->orderByDesc('created_at')->paginate(10);
+        $query = Plant::where('user_id', $request->user()->id);
+
+        if ($request->has('sort') && $request->sort === 'planted_at') {
+            $direction = $request->direction === 'asc' ? 'asc' : 'desc';
+            $query->orderBy('planted_at', $direction);
+        } else {
+            $query->orderByDesc('created_at');
+        }
+
+        $plants = $query->paginate(10);
+
         return response()->json($plants);
     }
 

@@ -10,6 +10,7 @@ class Plant extends Model
         'user_id',
         'variety',
         'location',
+        'is_active',
         'planted_at',
         'last_watered_at',
         'next_watering_at',

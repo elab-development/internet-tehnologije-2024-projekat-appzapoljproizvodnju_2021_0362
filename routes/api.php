@@ -15,5 +15,12 @@ Route::post('/login',    [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me',      [AuthController::class, 'me']);
+
     Route::apiResource('plants', PlantController::class);
+    
+    Route::get('/activities', [\App\Http\Controllers\ActivityController::class, 'index']);
+    Route::post('/activities', [\App\Http\Controllers\ActivityController::class, 'store']);
+    Route::get('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'show']);
+    Route::patch('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'update']);
+    Route::delete('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'destroy']);
 });

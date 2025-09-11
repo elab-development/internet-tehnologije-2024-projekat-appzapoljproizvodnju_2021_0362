@@ -23,4 +23,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'show']);
     Route::patch('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'update']);
     Route::delete('/activities/{activity}', [\App\Http\Controllers\ActivityController::class, 'destroy']);
+
+    Route::get('/comments', [\App\Http\Controllers\CommentController::class, 'index']);
+    Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store']);
+    Route::get('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'show']);
+    Route::patch('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy']);
+
 });

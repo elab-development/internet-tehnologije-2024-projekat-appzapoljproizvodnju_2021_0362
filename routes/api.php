@@ -34,6 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy']);
 
-    Route::get('/weather', [WeatherController::class, 'ping']);
     Route::get('/weather', [WeatherController::class, 'forecast']);
 });

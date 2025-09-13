@@ -8,14 +8,6 @@ use Illuminate\Support\Facades\Http;
 
 class WeatherController extends Controller
 {
-    public function ping(Request $request)
-    {
-        return response()->json([
-            'ok' => true,
-            'message' => 'Weather API is reachable',
-        ]);
-    }
-
     private function resolveCoordinates(Request $request): array
     {
         $city = $request->query('city');
@@ -63,7 +55,6 @@ class WeatherController extends Controller
         ];
     }
 
-    // >>> DODAJ OVO: 7-dnevna prognoza (bez keširanja)
     public function forecast(Request $request)
     {
         $loc = $this->resolveCoordinates($request);
@@ -82,10 +73,6 @@ class WeatherController extends Controller
             return response()->json(['message' => 'Error fetching forecast.'], 502);
         }
 
-        // Ako želiš najjednostavnije moguće: vrati ceo JSON koji vrati Open-Meteo:
-        // return response()->json($resp->json());
-
-        // Malo “čistiji” izlaz: samo daily niz
         $data  = $resp->json();
         $daily = $data['daily'] ?? [];
 

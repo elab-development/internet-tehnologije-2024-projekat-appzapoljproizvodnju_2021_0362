@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\WeatherController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -33,4 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy']);
 
+    Route::get('/weather', [WeatherController::class, 'ping']);
+    Route::get('/weather', [WeatherController::class, 'forecast']);
 });

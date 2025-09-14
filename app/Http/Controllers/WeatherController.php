@@ -33,7 +33,7 @@ class WeatherController extends Controller
             'name'     => $city,
             'count'    => 1,
             'format'   => 'json',
-            'language' => 'sr',
+            'language' => 'en',
         ]);
 
         if ($resp->failed()) {
@@ -55,6 +55,35 @@ class WeatherController extends Controller
         ];
     }
 
+    private function decodeWeatherCode(int $code): string
+    {
+        $map = [
+            0 => 'Vedro',
+            1 => 'Uglavnom vedro',
+            2 => 'Delimično oblačno',
+            3 => 'Oblačno',
+            45 => 'Magla',
+            48 => 'Magla s naslagama',
+            51 => 'Slaba rosa',
+            53 => 'Umerena rosa',
+            55 => 'Jaka rosa',
+            61 => 'Slaba kiša',
+            63 => 'Umerena kiša',
+            65 => 'Jaka kiša',
+            71 => 'Slab sneg',
+            73 => 'Umeren sneg',
+            75 => 'Jak sneg',
+            80 => 'Slabi pljuskovi',
+            81 => 'Umereni pljuskovi',
+            82 => 'Jaki pljuskovi',
+            95 => 'Grmljavina',
+            96 => 'Grmljavina s gradom',
+            99 => 'Grmljavina s gradom',
+        ];
+
+        return $map[$code] ?? 'Nepoznat kod';
+    }
+
     public function forecast(Request $request)
     {
         $loc = $this->resolveCoordinates($request);
@@ -65,7 +94,7 @@ class WeatherController extends Controller
             'latitude'      => $lat,
             'longitude'     => $lon,
             'timezone'      => 'auto',
-            'daily'         => 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max',
+            'daily'         => 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max',
             'forecast_days' => 14,
         ]);
 
@@ -78,14 +107,18 @@ class WeatherController extends Controller
 
         $out = [];
         if (!empty($daily['time'])) {
-            for ($i = 0; $i < count($daily['time']); $i++) {
+            $n = count($daily['time']);
+            for ($i = 0; $i < $n; $i++) {
+                $code = $daily['weathercode'][$i] ?? null;
+
                 $out[] = [
                     'date'         => $daily['time'][$i],
                     'temp_max_c'   => $daily['temperature_2m_max'][$i] ?? null,
                     'temp_min_c'   => $daily['temperature_2m_min'][$i] ?? null,
                     'precip_mm'    => $daily['precipitation_sum'][$i] ?? null,
-                    'wind_max_ms'  => $daily['wind_speed_10m_max'][$i] ?? null,
-                    'weather_code' => $daily['weathercode'][$i] ?? null,
+                    'wind_max_ms'  => $daily['windspeed_10m_max'][$i] ?? null,
+                    'weather_code' => $code,
+                    'weather_text' => $code !== null ? $this->decodeWeatherCode($code) : null,
                 ];
             }
         }

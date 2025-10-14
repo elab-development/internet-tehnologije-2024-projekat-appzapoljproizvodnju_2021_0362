@@ -2,46 +2,55 @@
   {
     "id": 1,
     "naslov": "Opšte informacije",
+    "slika": "/img/paradajz.jpg",
     "tekst": "Paradajz (Solanum lycopersicum) je višegodišnja biljka koja se u poljoprivredi gaji kao jednogodišnja kultura. Spada u porodicu pomoćnica (Solanaceae), kao i krompir, paprika i plavi patlidžan. Postoje niske sorte (determinantne) i visoke sorte (indeterminantne): niske daju sve plodove odjednom i pogodne su za otvoreno polje, dok visoke rastu neprekidno, daju plodove kroz duži period i idealne su za plastenik."
   },
   {
     "id": 2,
     "naslov": "Uslovi gajenja",
+    "slika": "/img/kopanje.jpg",
     "tekst": "Paradajz najbolje uspeva u toplim, sunčanim uslovima i rastresitom zemljištu koje dobro propušta vodu. Za klijanje semena potrebna je temperatura između 22 i 26 °C. Optimalna temperatura za rast je 20 do 25 °C tokom dana, a 15 do 18 °C noću. Biljka prestaje da raste ako temperatura padne ispod 10 °C, pa je veoma osetljiva na mraz. Vlažnost zemljišta treba da bude 70–80% poljskog vodnog kapaciteta, što znači da zemlja treba da bude umereno vlažna, ali nikako previše natopljena. Paradajz zahteva mnogo svetlosti — najmanje šest sati direktnog sunca dnevno, što utiče na zdrav rast i formiranje plodova. Zemljište treba da bude blago kiselo do neutralno, sa pH vrednošću između 5.5 i 7.0."
   },
   {
     "id": 3,
     "naslov": "Rasad i priprema sadnica",
+    "slika": "/img/sadjenje.jpg",
     "tekst": "Sejanje paradajza u zatvorenom prostoru (rasadnik ili plastenik) obavlja se krajem februara ili početkom marta. Koristi se rastresita, plodna zemlja sa dodatkom peska i humusa. Seme se sadi na dubinu od 0.5 do 1 cm, a temperatura klijanja treba da bude između 22 i 26 °C. Posle nicanja, biljke se drže na svetlom mestu i zalivaju umereno. Kada razviju 2–3 prava lista, rasađuju se u veće posude. Biljke su spremne za sadnju na otvoreno kada dostignu oko 20 cm visine i imaju 5–7 pravih listova."
   },
   {
     "id": 4,
     "naslov": "Sadnja",
+    "slika": "/img/briga.jpg",
     "tekst": "Paradajz se sadi kada se zemljište ugreje na najmanje 14 do 15 °C, obično krajem aprila ili početkom maja. U plasteniku se može saditi već krajem marta. Biljke se sade do prvih listova, jer paradajz razvija dodatno korenje duž stabljike. Nakon sadnje, svaku biljku treba obilno zaliti, a zemljište je poželjno malčirati slamom ili folijom radi zadržavanja vlage. Razmak između redova kod visokih sorti treba da bude 70–90 cm, a između biljaka u redu 40–50 cm."
   },
   {
     "id": 5,
     "naslov": "Zalivanje",
+    "slika": "/img/zalivanje.jpg",
     "tekst": "U prvim danima nakon sadnje paradajz se zaliva umereno, svaki drugi dan, dok se biljke ne ukorene. Kasnije se zalivanje obavlja na 3–4 dana, u zavisnosti od vremenskih uslova. Tokom cvetanja i plodonošenja paradajz zahteva obilno, ali ne prečesto zalivanje, otprilike 2–3 puta nedeljno. Najbolje je zalivati ujutru, direktno uz koren, a ne po listovima, da bi se sprečile bolesti. Pred samu berbu, zalivanje se smanjuje da plodovi ne bi pucali."
   },
   {
     "id": 6,
     "naslov": "Prihrana",
+    "slika": "/img/odrzavanje.jpg",
     "tekst": "Za dobar prinos paradajza neophodna je pravilna prihrana. Pre sadnje se preporučuje unošenje stajnjaka (3–5 kg po kvadratnom metru) i mineralnog đubriva NPK 8:16:24. Tokom rasta biljaka primenjuje se dodatna prihrana jednom nedeljno, kombinacijom organskih i mineralnih preparata. U fazi cvetanja potrebno je više fosfora, a u fazi formiranja plodova više kalijuma. Koren se može prihranjivati rastvorom đubriva, a povremeno se može primeniti i folijarna prihrana preko lista."
   },
   {
     "id": 7,
     "naslov": "Održavanje biljaka",
+    "slika": "/img/djubrivo.jpg",
     "tekst": "Za pravilno održavanje paradajza potrebno je redovno ogrtanje zemljišta i uklanjanje korova. Visoke sorte zahtevaju vezivanje uz štapove ili kanape. Zaperci, odnosno bočni izdanci koji izrastaju između stabljike i lista, treba da se uklanjaju na svakih 7 do 10 dana kako bi se energija biljke usmerila na razvoj plodova. Uklanjanje donjih listova ispod prvih cvetova smanjuje vlažnost i sprečava pojavu bolesti. Po potrebi se obavlja i pinciranje vrhova biljke kako bi se ograničio rast i poboljšala zrelost postojećih plodova."
   },
   {
     "id": 8,
     "naslov": "Zaštita od bolesti i štetočina",
+    "slika": "/img/pesticidi.jpg",
     "tekst": "Najčešće bolesti paradajza su plamenjača, pepelnica i bakterijska pegavost. Pojavljuju se najčešće pri vlažnom i toplom vremenu. Prevencija obuhvata redovno provetravanje, izbegavanje zalivanja po listovima i korišćenje zaštitnih preparata na bazi bakra ili bioloških fungicida. Od štetočina se javljaju lisne vaši, crveni pauk i tripsi. Preporučuje se upotreba prirodnih sredstava poput neem ulja ili insekticidnog sapuna. Redovna kontrola biljaka pomaže da se problemi uoče na vreme."
   },
   {
     "id": 9,
     "naslov": "Berba i čuvanje plodova",
+    "slika": "/img/kraj.jpg",
     "tekst": "Berba paradajza počinje kada plodovi dobiju intenzivnu crvenu boju i blago omekšaju. U punoj sezoni bere se na svaka 2–3 dana. Za prodaju ili transport plodove je bolje brati u fazi blage ružičaste boje, jer su čvršći. Najbolja temperatura za čuvanje je između 12 i 15 °C, uz vlažnost vazduha od 85 do 90%. Paradajz se ne preporučuje čuvati u frižideru jer gubi ukus i aromu. Nakon završetka berbe, biljke treba ukloniti, a zemljište pripremiti za sledeću sezonu."
   }
 ]

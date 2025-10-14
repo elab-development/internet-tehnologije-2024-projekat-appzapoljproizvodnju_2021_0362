@@ -1,9 +1,9 @@
-
+import Uzgoj from "../komponente/Uzgoj";
 
 function Pocetna() {
   return (
     <>
-    
+     <Uzgoj />
     </>
   );
 }

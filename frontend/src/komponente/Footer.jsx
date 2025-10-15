@@ -22,7 +22,7 @@ function Footer() {
                     <li><a href="https://www.reddit.com/" target="_blank">-Reddit-</a></li>
                 </ul>
                 <ul>
-                    <li><Link to="/o-nama">-O NAMA-</Link></li>
+                    <li><strong>-BROJ TELEFONA-</strong></li>
                     <li><Link to="">-066 123 4567-</Link></li>
                 </ul>
                 <div>&copy; {new Date().getFullYear()} To-mate-o</div>

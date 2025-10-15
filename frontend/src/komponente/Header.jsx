@@ -11,6 +11,7 @@ function Header() {
           <li><Link to="/nalog">-Nalog-</Link></li>
           <li><Link to="/prognoza">-Prognoza-</Link></li>
           <li><Link to="/kalendar">-Kalendar-</Link></li>
+          <li><Link to="/login">Log in</Link></li>
         </ul>
       </nav>
     </header>

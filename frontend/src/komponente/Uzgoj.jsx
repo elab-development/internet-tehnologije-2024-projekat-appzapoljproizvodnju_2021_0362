@@ -1,21 +1,13 @@
 import podaci from "../podaci/kartice.json";
+import Kartica from "../komponente/Kartica";
 
 function Uzgoj() {
   return (
     <>
         <div className="sve-kartice">
-            {podaci.map((kartica, index) => {
-            
-                return(
-                    <div key={kartica.id} className="kartice">
-                        <img src={kartica.slika} alt={`Slika ${index}`} />
-                        <div className="tekst">
-                            <h2>{kartica.naslov}</h2>
-                            <p>{kartica.tekst}</p>
-                        </div>
-                    </div>
-                )
-            })}  
+        {podaci.map((kartica, index) => (
+            <Kartica key={kartica.id} index={index} slika={kartica.slika} naslov={kartica.naslov} tekst={kartica.tekst} />
+        ))}
         </div>
     </>
   );

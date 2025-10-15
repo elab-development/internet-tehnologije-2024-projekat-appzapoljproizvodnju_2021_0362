@@ -3,42 +3,42 @@
     "id": 1,
     "naslov": "Jabučar (obični paradajz)",
     "tekst": "Najpoznatija i najzastupljenija sorta paradajza. Plodovi su srednje veliki, okrugli i mesnati, sa intenzivno crvenom bojom. Idealan je za salate i svežu upotrebu. Ima blag i sočan ukus, a uzgaja se na otvorenom i u plastenicima.",
-    "slika": "jabucar.jpg"
+    "slika": "/img/jabucar.jpg"
   },
   {
     "id": 2,
     "naslov": "Čeri paradajz",
     "tekst": "Sitna sorta paradajza koja se odlikuje izuzetno slatkim ukusom. Plodovi rastu u grozdovima i najčešće se koriste u salatama, kao dekoracija ili za pečenje u rerni. Veoma prinosan i jednostavan za uzgoj.",
-    "slika": "ceri.jpg"
+    "slika": "/img/ceri.jpg"
   },
   {
     "id": 3,
     "naslov": "Volovsko srce",
     "tekst": "Veliki, mesnati plodovi u obliku srca, sa tankom kožicom i malo semena. Ima blag, sladak ukus i koristi se za svežu potrošnju, sendviče i soseve. Zbog svoje veličine često se koristi i za punjenje.",
-    "slika": "volovsko-srce.jpg"
+    "slika": "/img/volovsko-srce.jpg"
   },
   {
     "id": 4,
     "naslov": "Roma (šljivar)",
     "tekst": "Paradajz izduženog oblika, čvrst i sa malo soka, poznat kao idealan za preradu i pravljenje paradajz sosa, pelata i paste. Dobro podnosi transport i ima dug vek trajanja.",
-    "slika": "roma.jpg"
+    "slika": "/img/roma.jpg"
   },
   {
     "id": 5,
     "naslov": "Crni paradajz (Black Krim)",
     "tekst": "Egzotična sorta tamno crvene do ljubičaste boje, poreklom sa Krima. Ima specifičan, pun i bogat ukus, blago dimljen. Cenjen je među gurmanima i često se koristi u gourmet kuhinji.",
-    "slika": "black-krim.jpg"
+    "slika": "/img/black-krim.jpg"
   },
   {
     "id": 6,
     "naslov": "Zeleni zebra",
     "tekst": "Sorta prepoznatljiva po zelenim prugama i blagom, osvežavajućem ukusu. Plodovi su srednje veličine i imaju nešto kiselkastiji ukus. Odličan izbor za dekorativne salate i kombinovanje sa drugim vrstama.",
-    "slika": "zeleni-zebra.jpg"
+    "slika": "/img/zeleni-zebra.jpg"
   },
   {
     "id": 7,
     "naslov": "San Marzano",
     "tekst": "Italijanska sorta duguljastog oblika, poznata po gustoj pulpi i slatkom ukusu bez mnogo semena. Najčešće se koristi za pravljenje autentičnih italijanskih soseva i pizza preljeva.",
-    "slika": "san-marzano.jpg"
+    "slika": "/img/san-marzano.jpg"
   }
 ]

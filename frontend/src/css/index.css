@@ -71,3 +71,9 @@ h1 {
     background-position: 0%;
   }
 }
+
+/*TEKST*/
+
+.uvodni {
+display: flex;
+}

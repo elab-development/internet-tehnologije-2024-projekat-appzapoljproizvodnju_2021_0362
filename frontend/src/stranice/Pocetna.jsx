@@ -1,9 +1,11 @@
+import Dugme from "../komponente/Dugme";
 import Uzgoj from "../komponente/Uzgoj";
 
 function Pocetna() {
   return (
     <>
-     <Uzgoj />
+    <Uzgoj />
+    <Dugme tekst="Vrste" link="/vrste" />
     </>
   );
 }

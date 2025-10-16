@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function Dugme({ tekst, link }) {
   return (
-    <Link to={link} className="dugme-link">
-      {tekst}
+    <Link to={link} className="dugme">
+      <strong>{tekst}</strong>
     </Link>
   );
 }

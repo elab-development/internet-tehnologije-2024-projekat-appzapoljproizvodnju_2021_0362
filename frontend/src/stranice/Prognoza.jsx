@@ -1,9 +1,9 @@
-
+import Vreme from "../komponente/Vreme";
 
 function Prognoza() {
   return (
     <>
-
+      <Vreme />
     </>
   );
 }

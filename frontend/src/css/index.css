@@ -41,3 +41,30 @@
   width: 100%;
   height: 100%;
 }
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 4.5vw;
+  background: linear-gradient(to right, #e22030, #00aeac);
+  background-size: 200%; 
+  color: white;
+  border-radius: 100px;
+  margin: 0 3%;
+  margin-bottom: 2%;
+  padding: 0;
+  animation: gradient-slide 3s linear infinite;
+}
+
+@keyframes gradient-slide {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}

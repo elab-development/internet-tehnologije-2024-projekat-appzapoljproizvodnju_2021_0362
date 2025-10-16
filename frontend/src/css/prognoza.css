@@ -1,0 +1,46 @@
+.vreme { padding: 20px; }
+
+.vreme_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 40px;
+}
+
+.vreme_kartica {
+  border: none;
+  background-color: #f7f7f7;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.vreme_C {
+  display: flex;
+  gap: 30px;
+  font-weight: 600;
+}
+
+.vreme_opis {
+  font-size: 0.9rem;
+  min-height: 2.2em;
+  text-align: center;
+}
+
+.vreme_stanje {
+  display: flex;
+  gap: 5px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.vreme__status {
+  padding: 16px;
+}
+
+.vreme__status--error {
+  color: #e66;
+  font-weight: 600;
+}

@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
+import ScrollToTop from "./podaci/ScrollToTop";
 
 import Header from "./komponente/Header";
 import Footer from "./komponente/Footer";
@@ -13,6 +13,7 @@ import Vrste from "./stranice/Vrste";
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Header />
       <main>
         <Routes>

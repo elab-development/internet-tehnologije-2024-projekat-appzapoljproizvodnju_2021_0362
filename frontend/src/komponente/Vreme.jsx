@@ -31,16 +31,12 @@ function Vreme() {
   if (stanje.ucitavanje) return <div style={{ padding: 16 }}>Učitavanje prognoze…</div>;
   if (stanje.greska)   return <div style={{ padding: 16, color: "#e66" }}>Greška: {stanje.greska}</div>;
 
-  const { lokacija, dani } = stanje.podaci;
+  const { dani } = stanje.podaci;
 
   return (
     <section style={{ padding: 16 }}>
       <header style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-        <h2>Vremenska prognoza (14 dana)</h2>
-        <small>
-          Lokacija: {lokacija?.name || "—"}
-          {lokacija?.lat && lokacija?.lon ? ` (${lokacija.lat.toFixed(2)}, ${lokacija.lon.toFixed(2)})` : ""}
-        </small>
+        <h2>Vremenska prognoza</h2>
       </header>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>

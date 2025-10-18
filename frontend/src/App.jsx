@@ -1,6 +1,7 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import ScrollToTop from "./podaci/ScrollToTop";
+import PrivateRoute from "./api/PrivateRoute";
 
+import ScrollToTop from "./podaci/ScrollToTop";
 import Header from "./komponente/Header";
 import Footer from "./komponente/Footer";
 
@@ -11,6 +12,7 @@ import Prognoza from "./stranice/Prognoza";
 import Vrste from "./stranice/Vrste";
 import Login from "./stranice/Login";
 
+
 function App() {
   return (
     <Router>
@@ -19,11 +21,13 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Pocetna />} />
-          <Route path="/nalog" element={<Nalog />} />
-          <Route path="/kalendar" element={<Kalendar />} />
-          <Route path="/prognoza" element={<Prognoza />} />
           <Route path="/vrste" element={<Vrste />} />
           <Route path="/login" element={<Login />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/nalog" element={<Nalog />} />
+            <Route path="/kalendar" element={<Kalendar />} />
+            <Route path="/prognoza" element={<Prognoza />} />
+          </Route>
         </Routes>
       </main>
       <Footer />

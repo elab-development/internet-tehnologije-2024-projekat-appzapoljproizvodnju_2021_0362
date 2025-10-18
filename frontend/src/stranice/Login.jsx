@@ -1,11 +1,47 @@
+import { useState } from "react";
+import { useAuth } from "../api/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 import Naslov from "../komponente/Naslov";
 
-function Login() {
-      return (
-    <>
-      <Naslov tekst="Ulogujte se" />
-      
-    </>
+export default function Login() {
+  const { login } = useAuth();
+  const nav = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [err, setErr] = useState("");
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    setErr("");
+    try {
+      await login(form);
+      nav("/");
+    } catch (e) {
+      setErr(e?.response?.data?.message || "Greška pri logovanju");
+    }
+  }
+
+  return (
+    <div style={{ maxWidth: 360, margin: "40px auto" }}>
+      <Naslov>Prijava</Naslov>
+      <form onSubmit={onSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          value={form.email}
+          onChange={(e)=>setForm({...form, email:e.target.value})}
+          required
+        />
+        <label>Lozinka</label>
+        <input
+          type="password"
+          value={form.password}
+          onChange={(e)=>setForm({...form, password:e.target.value})}
+          required
+        />
+        {err && <p style={{color:"crimson"}}>{err}</p>}
+        <button type="submit">Uloguj se</button>
+      </form>
+    </div>
   );
 }
-export default Login;

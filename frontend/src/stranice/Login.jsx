@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../api/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+import Dugme from "../komponente/Dugme";
 import Naslov from "../komponente/Naslov";
 
 export default function Login() {
@@ -22,8 +23,8 @@ export default function Login() {
   }
 
   return (
-    <div style={{ maxWidth: 360, margin: "40px auto" }}>
-      <Naslov>Prijava</Naslov>
+    <div>
+      <h2 className="podnaslov">Prijava</h2>
       <form onSubmit={onSubmit}>
         <label>Email</label>
         <input
@@ -40,7 +41,9 @@ export default function Login() {
           required
         />
         {err && <p style={{color:"crimson"}}>{err}</p>}
-        <button type="submit">Uloguj se</button>
+        <Dugme tekst="Uloguj se" tip="submit" />
+        <label>Nemate nalog? Registrujte se</label>
+        <Dugme tekst="Registruj se" link="/registracija" />
       </form>
     </div>
   );

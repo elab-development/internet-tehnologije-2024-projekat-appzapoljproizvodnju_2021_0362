@@ -2,6 +2,8 @@ import { useState } from "react";
 import { register as apiRegister } from "../api/auth";
 import { useNavigate, Link } from "react-router-dom";
 
+import Dugme from "../komponente/Dugme";
+
 export default function Registracija() {
   const nav = useNavigate();
   const [form, setForm] = useState({
@@ -26,8 +28,8 @@ export default function Registracija() {
   }
 
   return (
-    <div style={{ maxWidth: 420, margin: "40px auto" }}>
-      <h2>Registracija</h2>
+    <div>
+      <h2 className="podnaslov">Registracija</h2>
       <form onSubmit={onSubmit}>
         <label>Ime</label>
         <input value={form.name} onChange={(e)=>setForm({...form, name:e.target.value})} required />
@@ -38,9 +40,10 @@ export default function Registracija() {
         <label>Lozinka</label>
         <input type="password" value={form.password} onChange={(e)=>setForm({...form, password:e.target.value})} required />
         {err && <p style={{color:"crimson"}}>{err}</p>}
-        <button type="submit">Registruj se</button>
+        <Dugme tekst="Registruj se" tip="submit" />
+        <label>Već imate nalog? Ulogujte se</label>
+        <Dugme tekst="Uloguj se" link="/login" />
       </form>
-      <p style={{marginTop:12}}>Već imaš nalog? <Link to="/login">Prijavi se</Link></p>
     </div>
   );
 }

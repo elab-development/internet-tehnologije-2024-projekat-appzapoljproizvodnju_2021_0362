@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../api/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Dugme from "../komponente/Dugme";
-import Naslov from "../komponente/Naslov";
 
 export default function Login() {
   const { login } = useAuth();

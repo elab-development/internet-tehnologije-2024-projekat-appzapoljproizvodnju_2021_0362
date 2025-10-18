@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class WeatherController extends Controller
 {
@@ -90,49 +91,55 @@ class WeatherController extends Controller
         $lat = $loc['lat'];
         $lon = $loc['lon'];
 
-        $resp = Http::get('https://api.open-meteo.com/v1/forecast', [
-            'latitude'      => $lat,
-            'longitude'     => $lon,
-            'timezone'      => 'auto',
-            'daily'         => 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max',
-            'forecast_days' => 14,
-        ]);
+        $cacheKey = sprintf('weather:%s:%s', $lat, $lon);
+        $ttl = 1800;
 
-        if ($resp->failed()) {
-            return response()->json(['message' => 'Error fetching forecast.'], 502);
-        }
+        return Cache::remember($cacheKey, $ttl, function () use ($lat, $lon, $loc) {
 
-        $data  = $resp->json();
-        $daily = $data['daily'] ?? [];
+            $resp = Http::get('https://api.open-meteo.com/v1/forecast', [
+                'latitude'      => $lat,
+                'longitude'     => $lon,
+                'timezone'      => 'Europe/Belgrade',
+                'daily'         => 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max',
+                'forecast_days' => 14,
+            ]);
 
-        $out = [];
-        if (!empty($daily['time'])) {
-            $n = count($daily['time']);
-            for ($i = 0; $i < $n; $i++) {
-                $code = $daily['weathercode'][$i] ?? null;
-
-                $out[] = [
-                    'date'         => $daily['time'][$i],
-                    'temp_max_c'   => $daily['temperature_2m_max'][$i] ?? null,
-                    'temp_min_c'   => $daily['temperature_2m_min'][$i] ?? null,
-                    'precip_mm'    => $daily['precipitation_sum'][$i] ?? null,
-                    'wind_max_ms'  => $daily['windspeed_10m_max'][$i] ?? null,
-                    'weather_code' => $code,
-                    'weather_text' => $code !== null ? $this->decodeWeatherCode($code) : null,
-                ];
+            if ($resp->failed()) {
+                return ['message' => 'Error fetching forecast.'];
             }
-        }
 
-        return response()->json([
-            'location' => [
-                'lat'     => $lat,
-                'lon'     => $lon,
-                'name'    => $loc['name'],
-                'country' => $loc['country'],
-                'tz'      => $data['timezone'] ?? null,
-            ],
-            'daily'  => $out,
-            'source' => 'Open-Meteo',
-        ]);
+            $data  = $resp->json();
+            $daily = $data['daily'] ?? [];
+
+            $out = [];
+            if (!empty($daily['time'])) {
+                $n = count($daily['time']);
+                for ($i = 0; $i < $n; $i++) {
+                    $code = $daily['weathercode'][$i] ?? null;
+
+                    $out[] = [
+                        'date'         => $daily['time'][$i],
+                        'temp_max_c'   => $daily['temperature_2m_max'][$i] ?? null,
+                        'temp_min_c'   => $daily['temperature_2m_min'][$i] ?? null,
+                        'precip_mm'    => $daily['precipitation_sum'][$i] ?? null,
+                        'wind_max_ms'  => $daily['windspeed_10m_max'][$i] ?? null,
+                        'weather_code' => $code,
+                        'weather_text' => $code !== null ? $this->decodeWeatherCode($code) : null,
+                    ];
+                }
+            }
+
+            return [
+                'location' => [
+                    'lat'     => $lat,
+                    'lon'     => $lon,
+                    'name'    => $loc['name'],
+                    'country' => $loc['country'],
+                    'tz'      => $data['timezone'] ?? null,
+                ],
+                'daily'  => $out,
+                'source' => 'Open-Meteo',
+            ];
+        });
     }
 }

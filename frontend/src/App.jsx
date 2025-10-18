@@ -25,10 +25,10 @@ function App() {
           <Route path="/vrste" element={<Vrste />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registracija" element={<Registracija />} />
+          <Route path="/prognoza" element={<Prognoza />} />
           <Route element={<PrivateRoute />}>
             <Route path="/nalog" element={<Nalog />} />
             <Route path="/kalendar" element={<Kalendar />} />
-            <Route path="/prognoza" element={<Prognoza />} />
           </Route>
         </Routes>
       </main>

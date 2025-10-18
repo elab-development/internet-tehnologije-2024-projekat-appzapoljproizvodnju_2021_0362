@@ -11,6 +11,7 @@ import Pocetna from "./stranice/Pocetna";
 import Prognoza from "./stranice/Prognoza";
 import Vrste from "./stranice/Vrste";
 import Login from "./stranice/Login";
+import Registracija from "./stranice/Registracija";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Pocetna />} />
           <Route path="/vrste" element={<Vrste />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/registracija" element={<Registracija />} />
           <Route element={<PrivateRoute />}>
             <Route path="/nalog" element={<Nalog />} />
             <Route path="/kalendar" element={<Kalendar />} />

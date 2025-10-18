@@ -72,7 +72,7 @@ h1 {
   }
 }
 
-h2 {
+.podnaslov {
   display: flex;
   justify-content: center;
   font-weight: bold;

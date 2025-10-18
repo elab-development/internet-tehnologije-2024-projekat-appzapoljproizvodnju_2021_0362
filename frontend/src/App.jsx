@@ -9,6 +9,7 @@ import Nalog from "./stranice/Nalog";
 import Pocetna from "./stranice/Pocetna";
 import Prognoza from "./stranice/Prognoza";
 import Vrste from "./stranice/Vrste";
+import Login from "./stranice/Login";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/kalendar" element={<Kalendar />} />
           <Route path="/prognoza" element={<Prognoza />} />
           <Route path="/vrste" element={<Vrste />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
       <Footer />

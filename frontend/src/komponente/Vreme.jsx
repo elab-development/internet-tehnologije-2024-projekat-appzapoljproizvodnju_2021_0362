@@ -32,14 +32,14 @@ function Vreme() {
     return () => { otkazano = true; };
   }, []);
 
-  if (stanje.ucitavanje) return <div className="vreme__status">Učitavanje prognoze…</div>;
-  if (stanje.greska)   return <div className="vreme__status vreme__status--error">Greška: {stanje.greska}</div>;
+  if (stanje.ucitavanje) return <div className="vreme_status">Učitavanje prognoze…</div>;
+  if (stanje.greska)   return <div className="vreme_status vreme_status--error">Greška: {stanje.greska}</div>;
 
   const { dani } = stanje.podaci;
 
   return (
     <section className="vreme">
-      <h2>Vremenska prognoza</h2>
+      <h2 className="podnaslov">Vremenska prognoza</h2>
       <div className="vreme_grid">
         {dani.map((d) => (
           <div key={d.datum} className="vreme_kartica">

@@ -36,11 +36,11 @@
   opacity: 0.85;
 }
 
-.vreme__status {
+.vreme_status {
   padding: 16px;
 }
 
-.vreme__status--error {
+.vreme_status--error {
   color: #e66;
   font-weight: 600;
 }

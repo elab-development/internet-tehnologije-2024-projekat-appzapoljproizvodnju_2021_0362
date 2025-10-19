@@ -41,6 +41,10 @@ export default function Login() {
         />
         {err && <p style={{color:"crimson"}}>{err}</p>}
         <button type="submit">Prijavi se</button>
+        <label>Zaboravili ste lozinku? Napravite novu</label>
+        <Dugme tekst="Postavi novu lozinku" link="/zaboravljena-lozinka" />
+        <label>Promenite lozinku</label>
+        <Dugme tekst="Promeni lozinku" link="/promena-lozinke" />
         <label>Nemate nalog? Registrujte se</label>
         <Dugme tekst="Registruj se" link="/registracija" />
       </form>

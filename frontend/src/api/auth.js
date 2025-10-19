@@ -23,3 +23,13 @@ export async function changePassword(payload) {
   const { data } = await api.post("/change-password", payload);
   return data;
 }
+
+export async function forgotPassword(email) {
+  const { data } = await api.post("/forgot-password", { email });
+  return data;
+}
+
+export async function resetPassword(payload) {
+  const { data } = await api.post("/reset-password", payload);
+  return data;
+}

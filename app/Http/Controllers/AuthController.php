@@ -6,9 +6,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
+
 class AuthController extends Controller
 {
-    // POST /api/register
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -77,5 +80,50 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Lozinka je uspešno promenjena']);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => ['required','email']]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Ako email postoji, poslat je token.'], 200);
+        }
+
+        $token = Password::createToken($user);
+
+        return response()->json([
+            'message' => 'Token generisan. Iskoristi ga na /reset-password',
+            'token'   => $token,
+            'email'   => $user->email,
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email'                 => ['required','email'],
+            'token'                 => ['required','string'],
+            'password'              => ['required','string','min:8','confirmed'],
+        ]);
+
+        $status = Password::reset(
+            $request->only('email','password','password_confirmation','token'),
+            function ($user) use ($request) {
+                $user->password = $request->password;
+                $user->setRememberToken(Str::random(60));
+                $user->save();
+                $user->tokens()->delete();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json(['message' => 'Lozinka uspešno resetovana.']);
+        }
+        return response()->json(['message' => __($status)], 400);
     }
 }

@@ -39,7 +39,7 @@ export default function PromenaLozinke() {
   return (
     <>
         <h2 className="podnaslov">Promena lozinke</h2>
-        <form onSubmit={onSubmit} style={{ maxWidth: 420 }}>
+        <form onSubmit={onSubmit}>
             <label>Stara lozinka</label>
             <input
                 type="password"
@@ -72,9 +72,9 @@ export default function PromenaLozinke() {
             {err && <p style={{ color: "crimson" }}>{err}</p>}
             {msg && <p style={{ color: "green" }}>{msg}</p>}
             <button type="submit" disabled={loading}>
-                {loading ? "Čuvam..." : "Sačuvaj novu lozinku"}
+                {loading ? "Čuvam..." : "Promeni lozinku"}
             </button>
         </form>
   </>
-);
+ );
 }

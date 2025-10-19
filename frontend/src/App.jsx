@@ -12,7 +12,8 @@ import Prognoza from "./stranice/Prognoza";
 import Vrste from "./stranice/Vrste";
 import Login from "./stranice/Login";
 import Registracija from "./stranice/Registracija";
-
+import Promena from "./stranice/Promena";
+import ZaboravljenaLozinka from "./stranice/ZaboravljenaLozinka";
 
 function App() {
   return (
@@ -25,8 +26,10 @@ function App() {
           <Route path="/vrste" element={<Vrste />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registracija" element={<Registracija />} />
-          <Route path="/prognoza" element={<Prognoza />} />
+          <Route path="/promena-lozinke" element={<Promena />} />
+          <Route path="/zaboravljena-lozinka" element={<ZaboravljenaLozinka />} />
           <Route element={<PrivateRoute />}>
+            <Route path="/prognoza" element={<Prognoza />} />
             <Route path="/nalog" element={<Nalog />} />
             <Route path="/kalendar" element={<Kalendar />} />
           </Route>

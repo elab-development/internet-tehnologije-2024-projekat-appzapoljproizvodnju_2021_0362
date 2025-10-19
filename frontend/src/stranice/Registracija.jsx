@@ -40,7 +40,7 @@ export default function Registracija() {
         <label>Lozinka</label>
         <input type="password" value={form.password} onChange={(e)=>setForm({...form, password:e.target.value})} required />
         {err && <p style={{color:"crimson"}}>{err}</p>}
-        <Dugme tekst="Registruj se" tip="submit" />
+        <button type="submit">Registruj se</button>
         <label>Već imate nalog? Ulogujte se</label>
         <Dugme tekst="Uloguj se" link="/login" />
       </form>

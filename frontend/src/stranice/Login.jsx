@@ -40,7 +40,7 @@ export default function Login() {
           required
         />
         {err && <p style={{color:"crimson"}}>{err}</p>}
-        <Dugme tekst="Uloguj se" tip="submit" />
+        <button type="submit">Prijavi se</button>
         <label>Nemate nalog? Registrujte se</label>
         <Dugme tekst="Registruj se" link="/registracija" />
       </form>

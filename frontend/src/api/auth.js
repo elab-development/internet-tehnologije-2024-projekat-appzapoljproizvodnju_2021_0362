@@ -18,3 +18,8 @@ export async function me() {
   const { data } = await api.get("/me");
   return data;
 }
+
+export async function changePassword(payload) {
+  const { data } = await api.post("/change-password", payload);
+  return data;
+}

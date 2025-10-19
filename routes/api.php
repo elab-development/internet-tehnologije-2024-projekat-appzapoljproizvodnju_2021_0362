@@ -18,6 +18,7 @@ Route::get('/weather', [WeatherController::class, 'forecast']); //TRENUTNO PREME
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me',      [AuthController::class, 'me']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
 
     Route::middleware('role:premium,admin')->get('/premium-test', fn() => response()->json(['message' => 'premium or admin ok']));
     Route::middleware('role:admin')->get('/admin-test', fn() => response()->json(['message' => 'admin only ok']));

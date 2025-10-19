@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { forgotPassword } from "../api/auth";
+import Dugme from "../komponente/Dugme";
 
 export default function ZaboravljenaLozinka() {
   const [email, setEmail] = useState("");
@@ -29,10 +30,11 @@ export default function ZaboravljenaLozinka() {
             {msg && <p style={{color:"green"}}>{msg}</p>}
             {token && (
                 <p>
-                Token (za demo): <code>{token}</code>
+                Token: <code>{token}</code>
                 </p>
             )}
             {err && <p style={{color:"crimson"}}>{err}</p>}
+            <Dugme tekst="Resetuj lozinku" link="/reset-lozinke" />
         </form>
     </>
   );

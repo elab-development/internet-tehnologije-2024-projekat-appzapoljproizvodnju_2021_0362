@@ -14,6 +14,7 @@ import Login from "./stranice/Login";
 import Registracija from "./stranice/Registracija";
 import Promena from "./stranice/Promena";
 import ZaboravljenaLozinka from "./stranice/ZaboravljenaLozinka";
+import ResetLozinke from "./stranice/ResetLozinke";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/registracija" element={<Registracija />} />
           <Route path="/promena-lozinke" element={<Promena />} />
           <Route path="/zaboravljena-lozinka" element={<ZaboravljenaLozinka />} />
+          <Route path="/reset-lozinke" element={<ResetLozinke />} />
           <Route element={<PrivateRoute />}>
             <Route path="/prognoza" element={<Prognoza />} />
             <Route path="/nalog" element={<Nalog />} />

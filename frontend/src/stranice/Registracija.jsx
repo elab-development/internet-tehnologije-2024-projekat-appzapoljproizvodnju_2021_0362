@@ -23,7 +23,16 @@ export default function Registracija() {
       localStorage.setItem("token", token);
       nav("/");
     } catch (e) {
-      setErr(e?.response?.data?.message || "Greška pri registraciji");
+      const res = e?.response;
+      if (res?.status === 422 && res.data?.errors) {
+        const firstError =
+          Object.values(res.data.errors).flat()?.[0] || "Neispravni podaci";
+        setErr(firstError);
+      } else if (res?.data?.message) {
+        setErr(res.data.message);
+      } else {
+        setErr("Greška pri registraciji");
+      }
     }
   }
 

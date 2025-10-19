@@ -16,15 +16,13 @@ class AuthController extends Controller
             'username'        => ['required','string','max:50','alpha_dash','unique:users,username'],
             'email'           => ['required','email','unique:users,email'],
             'password'        => ['required','string','min:8'],
-            'profile_picture' => ['nullable','string','max:255'],
         ]);
 
         $user = User::create([
             'name'            => $data['name'],
             'username'        => $data['username'],
             'email'           => $data['email'],
-            'password'        => Hash::make($data['password']),
-            'profile_picture' => $data['profile_picture'] ?? null,
+            'password'        => $data['password'],
             'role'            => 'user',
         ]);
 

@@ -17,7 +17,7 @@ header ul:hover {
     background-color: #f7d7dc;
 }
 
-header a {
+header a, .nav-link {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,9 +32,15 @@ header a {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-header a:hover {
+header a:hover, .nav-link:hover {
     width: 20vw;
     background-color: #68d3d1;
+}
+
+.nav-link.disabled {
+    pointer-events: none;
+    opacity: 0.8;
+    background-color: #a9a9a9;
 }
 
 footer {

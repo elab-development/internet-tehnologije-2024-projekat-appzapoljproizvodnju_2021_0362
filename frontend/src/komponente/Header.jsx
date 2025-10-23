@@ -18,10 +18,10 @@ export default function Header() {
         <ul>
           <li><Link to="/" className="nav-link">Početna</Link></li>
           <li><Link to="/vrste" className="nav-link">Vrste</Link></li>
-          <li><Link to="/login" className="nav-link">Login</Link></li>
           <li><DisabledNavLink to="/kalendar" disabled={isGuest}>Kalendar</DisabledNavLink></li>
           <li><DisabledNavLink to="/prognoza" disabled={isGuest}>Prognoza</DisabledNavLink></li>
           <li><DisabledNavLink to="/nalog" disabled={isGuest}>Nalog</DisabledNavLink></li>
+          <li><Link to="/login" className="nav-link">Login</Link></li>
           <div>
             {user && (
               <>

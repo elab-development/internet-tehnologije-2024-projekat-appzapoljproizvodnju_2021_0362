@@ -17,12 +17,12 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'content' => 'required|string|max:1000',
+            'text' => 'required|string|max:1000',
         ]);
 
         $comment = \App\Models\Comment::create([
             'user_id' => $request->user()->id,
-            'content' => $data['content'],
+            'text' => $data['text'],
             'comment_date' => now(),
         ]);
 
@@ -56,7 +56,7 @@ class CommentController extends Controller
         }
 
         $data = $request->validate([
-            'content' => 'required|string|max:1000',
+            'text' => 'required|string|max:1000',
         ]);
 
         $comment->update($data);

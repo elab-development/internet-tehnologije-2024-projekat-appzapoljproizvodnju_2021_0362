@@ -1,6 +1,7 @@
 import Naslov from "../komponente/Naslov";
 import Tekst from "../komponente/Tekst";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import http from "../api/http"; // ⬅️ DODAJ OVO
 
 import { getActivitiesByDate, createActivity, updateActivity } from "../api/aktivnosti";
 import { getCommentsByDate, createComment, updateComment } from "../api/komentari";
@@ -16,6 +17,28 @@ export default function Kalendar() {
   const [saving, setSaving] = useState(false);
   const [existingActivityId, setExistingActivityId] = useState(null);
   const [existingCommentId, setExistingCommentId] = useState(null);
+
+  const [puniDani, setPuniDani] = useState(new Set());
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await http.get("/activities");
+
+        const arr = Array.isArray(data) ? data : (data?.data ?? []);
+
+        const datumi = new Set(
+          arr
+            .map(a => a.activity_date)
+            .filter(Boolean)
+            .map(s => String(s).slice(0, 10))
+        );
+
+        setPuniDani(datumi);
+      } catch (err) {
+        console.error("Greška pri učitavanju aktivnosti:", err);
+      }
+    })();
+  }, []);
 
   async function handleDateClick(info) {
     const [y,m,d] = info.dateStr.split("-");
@@ -58,41 +81,54 @@ export default function Kalendar() {
     setExistingCommentId(null);
   }
 
-async function handleSaveLocal() {
-  if (!klik?.dateStr || (!selectedActivity && !(comment ?? "").trim())) return;
-  try {
-    setSaving(true);
+  async function handleSaveLocal() {
+    if (!klik?.dateStr || (!selectedActivity && !(comment ?? "").trim())) return;
+    try {
+      setSaving(true);
 
-    if (selectedActivity) {
-      let activityId = existingActivityId;
-      if (activityId) {
-        await updateActivity(activityId, { activity_type: selectedActivity });
-      } else {
-        const a = await createActivity({
-          activity_date: klik.dateStr,
-          activity_type: selectedActivity,
-        });
-        setExistingActivityId(a.id);
+      if (selectedActivity) {
+        let activityId = existingActivityId;
+        if (activityId) {
+          await updateActivity(activityId, { activity_type: selectedActivity });
+        } else {
+          const a = await createActivity({
+            activity_date: klik.dateStr,
+            activity_type: selectedActivity,
+          });
+          setExistingActivityId(a.id);
+        }
       }
-    }
 
-    const trimmed = (comment ?? "").trim();
-    if (trimmed) {
-      if (existingCommentId) {
-        await updateComment(existingCommentId, { text: trimmed });
-      } else {
-        const c = await createComment({ date: klik.dateStr, text: trimmed });
-        setExistingCommentId(c.id);
+      const trimmed = (comment ?? "").trim();
+      if (trimmed) {
+        if (existingCommentId) {
+          await updateComment(existingCommentId, { text: trimmed });
+        } else {
+          const c = await createComment({ date: klik.dateStr, text: trimmed });
+          setExistingCommentId(c.id);
+        }
       }
-    }
 
-    setSaving(false);
-  } catch (error) {
-    console.error("Greška pri čuvanju:", error);
-    alert(error?.response?.data?.message || "Greška pri čuvanju.");
-    setSaving(false);
+      // ⬅️ ODMAH OBOJI TAJ DAN POSLE ČUVANJA
+      setPuniDani(prev => {
+        const s = new Set(prev);
+        s.add(klik.dateStr); // "YYYY-MM-DD"
+        return s;
+      });
+
+      setSaving(false);
+    } catch (error) {
+      console.error("Greška pri čuvanju:", error);
+      alert(error?.response?.data?.message || "Greška pri čuvanju.");
+      setSaving(false);
+    }
   }
-}
+
+  // helper da dobijemo lokalni ISO bez UTC pomeraja
+  const dayToIso = (date) => {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
+  };
 
   return (
     <>
@@ -102,11 +138,19 @@ async function handleSaveLocal() {
                     Kalendar vas podseća na važne korake i pomaže da ni jedna faza ne bude propuštena, bilo da se radi o zalivanju, prihrani ili zaštiti biljaka. 
                     Na taj način imate potpun pregled celog procesa uzgoja i uvek znate šta treba uraditi sledeće. 🌱" />
       <div className="kalendar">
-        <FullCalendar className="datumi"
+        <FullCalendar
+          className="datumi"
           plugins={[dayGridPlugin, interactionPlugin]}
           fixedWeekCount={false}
           dateClick={handleDateClick}
+
+          // ⬅️ DODAJ OVO: oboji ćelije koje su u Set-u
+          dayCellClassNames={(arg) => {
+            const iso = dayToIso(arg.date); // "YYYY-MM-DD" lokalno
+            return puniDani.has(iso) ? ["has-data"] : [];
+          }}
         />
+
         {klik && (
           <div className="pozadina-prozora" onClick={closeModal}>
             <div className="prozor" onClick={(e) => e.stopPropagation()}>
@@ -124,7 +168,7 @@ async function handleSaveLocal() {
               </select>
 
               <textarea
-                value={comment ?? ""}                  // ✅
+                value={comment ?? ""}
                 onChange={(e) => setComment(e.target.value)}
                 spellCheck="false"
                 rows={10}

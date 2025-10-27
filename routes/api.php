@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\ActivityController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -15,7 +16,7 @@ Route::post('/login',    [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password',  [AuthController::class, 'resetPassword']);
 
-Route::get('/weather', [WeatherController::class, 'forecast']); //TRENUTNO PREMESTENO
+Route::get('/weather', [WeatherController::class, 'forecast']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

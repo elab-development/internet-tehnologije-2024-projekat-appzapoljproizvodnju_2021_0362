@@ -70,3 +70,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin-bottom: 10px;
 }
+
+.fc-daygrid-day.has-data .fc-daygrid-day-number::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 6px;
+  border-radius: 100%;
+  background: #cc4e2e;
+  vertical-align: middle;
+}

@@ -10,20 +10,26 @@ class CommentController extends Controller
 {
     public function index(Request $request)
     {
-        $comments = Comment::where('user_id', $request->user()->id)->get();
-        return response()->json($comments);
+        $q = Comment::query()->where('user_id', $request->user()->id);
+
+        if ($request->filled('date')) {
+            $q->whereDate('comment_date', $request->get('date'));
+        }
+
+        return response()->json($q->orderBy('comment_date')->get());
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'text' => 'required|string|max:1000',
+            'text' => ['required','string','max:1000'],
+            'date' => ['required','date'],
         ]);
 
-        $comment = \App\Models\Comment::create([
-            'user_id' => $request->user()->id,
-            'text' => $data['text'],
-            'comment_date' => now(),
+        $comment = Comment::create([
+            'user_id'      => $request->user()->id,
+            'text'         => $data['text'],
+            'comment_date' => $data['date'],
         ]);
 
         return response()->json($comment, 201);

@@ -10,13 +10,15 @@ class ActivityController extends Controller
 {
     public function index(Request $request)
     {
-        $q = Activity::query()->where('user_id', $request->user()->id);
+        $q = \App\Models\Activity::where('user_id', $request->user()->id);
 
-        if ($request->filled('activity_date')) {
-            $q->where('activity_date', $request->get('activity_date'));
+        if ($request->filled('date')) {
+            $q->whereDate('activity_date', $request->query('date'));
         }
 
-        return response()->json($q->orderBy('activity_date')->get());
+        $q->orderBy('updated_at', 'desc');
+
+        return response()->json($q->get());
     }
 
     public function store(Request $request)
@@ -51,7 +53,7 @@ class ActivityController extends Controller
         }
 
         $data = $request->validate([
-            'activity_date' => 'sometimes|required|string|max:255',
+            'activity_date' => 'nullable|string|max:255',
             'activity_type' => 'sometimes|required|in:sadnja,zalivanje,djubrenje,obrezivanje,berba,presadjivanje,drugo',
         ]);
 

@@ -58,40 +58,41 @@ export default function Kalendar() {
     setExistingCommentId(null);
   }
 
-  async function handleSaveLocal() {
-    if (!klik?.dateStr) return;
-    try {
-      setSaving(true);
+async function handleSaveLocal() {
+  if (!klik?.dateStr || (!selectedActivity && !(comment ?? "").trim())) return;
+  try {
+    setSaving(true);
 
+    if (selectedActivity) {
       let activityId = existingActivityId;
       if (activityId) {
-        await updateActivity(activityId, { activity_type: selectedActivity || "drugo" });
+        await updateActivity(activityId, { activity_type: selectedActivity });
       } else {
         const a = await createActivity({
           activity_date: klik.dateStr,
-          activity_type: selectedActivity || "drugo",
+          activity_type: selectedActivity,
         });
-        activityId = a.id;
-        setExistingActivityId(activityId);
+        setExistingActivityId(a.id);
       }
-
-      const trimmed = (comment ?? "").trim();   // ✅
-      if (trimmed) {
-        if (existingCommentId) {
-          await updateComment(existingCommentId, { text: trimmed });
-        } else {
-          const c = await createComment({ activity_id: activityId, text: trimmed });
-          setExistingCommentId(c.id);
-        }
-      }
-
-      setSaving(false);
-    } catch (error) {
-      console.error("Greška pri čuvanju:", error);
-      alert(error?.response?.data?.message || "Greška pri čuvanju.");
-      setSaving(false);
     }
+
+    const trimmed = (comment ?? "").trim();
+    if (trimmed) {
+      if (existingCommentId) {
+        await updateComment(existingCommentId, { text: trimmed });
+      } else {
+        const c = await createComment({ date: klik.dateStr, text: trimmed });
+        setExistingCommentId(c.id);
+      }
+    }
+
+    setSaving(false);
+  } catch (error) {
+    console.error("Greška pri čuvanju:", error);
+    alert(error?.response?.data?.message || "Greška pri čuvanju.");
+    setSaving(false);
   }
+}
 
   return (
     <>

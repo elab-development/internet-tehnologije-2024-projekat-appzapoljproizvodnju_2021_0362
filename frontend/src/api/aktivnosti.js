@@ -1,9 +1,8 @@
 import http from "./http";
 
-
-export async function getActivitiesByDate(activity_date) {
-  const { data } = await http.get("/activities", { params: { activity_date } });
-  return Array.isArray(data) ? data : (data.data ?? data);
+export async function getActivitiesByDate(dateStr) {
+  const { data } = await http.get(`/activities?date=${dateStr}`);
+  return data;
 }
 
 export async function createActivity({ activity_date, activity_type }) {

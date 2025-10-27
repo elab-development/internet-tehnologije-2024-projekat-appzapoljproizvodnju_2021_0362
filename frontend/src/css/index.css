@@ -145,3 +145,8 @@ input {
   border-radius: 100px;
   width: 270px;
 }
+
+.grupa-dugmica {
+  display: flex;
+  margin: 30px;
+}

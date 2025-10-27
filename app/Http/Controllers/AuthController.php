@@ -41,10 +41,14 @@ class AuthController extends Controller
             'password' => ['required','string'],
         ]);
 
-        $user = User::where('email', $data['email'])->first();
+        try {
+            $user = User::where('email', $data['email'])->first();
+        } catch (\PDOException $e) {
+            return response()->json(['message' => 'Nema konekcije sa MySQL bazom podataka.'], 500);
+        }
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'Neispravni podaci za prijavu.'], 401);
         }
 
         $token = $user->createToken('api')->plainTextToken;
@@ -55,7 +59,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out']);
+        return response()->json(['message' => 'Odjavljeni ste uspešno.']);
     }
 
     public function me(Request $request)

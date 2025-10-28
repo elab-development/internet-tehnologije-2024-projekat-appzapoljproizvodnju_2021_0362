@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { login as apiLogin, logout as apiLogout, me as apiMe } from "./auth";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext(null);
 
@@ -31,6 +32,7 @@ export function AuthProvider({ children }) {
     setToken(token);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
+    toast.success("Uspešna prijava!");
   }
 
   async function logout() {
@@ -39,6 +41,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     setUser(null);
     setToken(null);
+    toast.info("Uspešna odjava!");
   }
 
   return (

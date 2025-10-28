@@ -71,7 +71,7 @@ export default function PromenaLozinke() {
 
             {err && <p style={{ color: "crimson" }}>{err}</p>}
             {msg && <p style={{ color: "green" }}>{msg}</p>}
-            <button type="submit" disabled={loading}>
+            <button className="dugme-forma" type="submit" disabled={loading}>
                 {loading ? "Čuvam..." : "Promeni lozinku"}
             </button>
         </form>

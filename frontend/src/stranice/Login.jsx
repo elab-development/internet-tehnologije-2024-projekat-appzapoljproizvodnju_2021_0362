@@ -40,7 +40,7 @@ export default function Login() {
           required
         />
         {err && <p style={{color:"crimson"}}>{err}</p>}
-        <button type="submit">Prijavi se</button>
+        <button className="dugme-forma" type="submit">Prijavi se</button>
         <label>Zaboravili ste lozinku? Napravite novu</label>
         <Dugme tekst="Nova lozinka" link="/zaboravljena-lozinka" />
         <label>Promenite lozinku</label>

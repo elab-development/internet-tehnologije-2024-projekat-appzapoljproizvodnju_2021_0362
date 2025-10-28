@@ -26,7 +26,7 @@ export default function ZaboravljenaLozinka() {
         <form onSubmit={onSubmit}>
             <label>Email</label>
             <input type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
-            <button type="submit">Pošalji zahtev</button>
+            <button className="dugme-forma" type="submit">Pošalji zahtev</button>
             {msg && <p style={{color:"green"}}>{msg}</p>}
             {token && (
                 <p>

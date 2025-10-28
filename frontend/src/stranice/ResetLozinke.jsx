@@ -49,7 +49,7 @@ export default function ResetLozinke() {
       <label>Potvrda nove lozinke</label>
       <input type="password" value={form.password_confirmation} onChange={e=>setForm({...form, password_confirmation:e.target.value})} required minLength={8} />
 
-      <button type="submit">Sačuvaj novu lozinku</button>
+      <button className="dugme-forma" type="submit">Sačuvaj novu lozinku</button>
       {msg && <p style={{color:"green"}}>{msg}</p>}
       {err && <p style={{color:"crimson"}}>{err}</p>}
     </form>

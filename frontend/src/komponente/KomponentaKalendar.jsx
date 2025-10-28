@@ -7,6 +7,7 @@ import { getCommentsByDate, createComment, updateComment } from "../api/komentar
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { toast } from "react-toastify";
 
 export default function Kalendar() {
   const [klik, setKlik] = useState(null);
@@ -114,9 +115,10 @@ export default function Kalendar() {
       });
 
       setSaving(false);
+      toast.success("Uspešno sačuvano!");
     } catch (error) {
       console.error("Greška pri čuvanju:", error);
-      alert(error?.response?.data?.message || "Greška pri čuvanju.");
+      toast.error(error?.response?.data?.message || "Greška pri čuvanju.");
       setSaving(false);
     }
   }
@@ -154,7 +156,7 @@ export default function Kalendar() {
                 <option value="djubrenje">Đubrenje</option>
                 <option value="obrezivanje">Obrezivanje</option>
                 <option value="berba">Berba</option>
-                <option value="drugo">Zaštita / Drugo</option>
+                <option value="drugo">Drugo</option>
               </select>
 
               <textarea
@@ -166,8 +168,9 @@ export default function Kalendar() {
               />
 
               <div className="potvrda">
-                <button onClick={closeModal} disabled={saving}>Otkaži</button>
+                <button className="dugme-forma" onClick={closeModal} disabled={saving}>Zatvori</button>
                 <button
+                  className="dugme-forma"
                   onClick={handleSaveLocal}
                   disabled={saving || (!selectedActivity && !(comment ?? "").trim())}
                   style={{ opacity: (saving || (!selectedActivity && !(comment ?? "").trim())) ? 0.6 : 1 }}

@@ -13,7 +13,7 @@
 /*DUGME*/
 
 
-.dugme, button {
+.dugme, .dugme-forma {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,12 +35,12 @@
   font-weight: 700;
 }
 
-.dugme:hover, button:hover {
+.dugme:hover, .dugme-forma:hover {
   width: 20vw;
   background-color: #68d3d1;
 }
 
-.dugme a, button a {
+.dugme a, .dugme-forma a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,7 +123,7 @@ form {
   border-radius: 50px;
 }
 
-form button {
+form .dugme-forma {
   margin: 12px 0;
   width: 150px;
 }

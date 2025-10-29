@@ -14,3 +14,7 @@ export async function updateActivity(id, partial) {
   const { data } = await http.patch(`/activities/${id}`, partial);
   return data;
 }
+
+export async function deleteActivity(id) {
+  await http.delete(`/activities/${id}`);
+}

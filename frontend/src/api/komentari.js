@@ -17,3 +17,7 @@ export async function updateComment(id, partial) {
   const { data } = await http.patch(`/comments/${id}`, { text: partial.text || partial });
   return data;
 }
+
+export async function deleteComment(id) {
+  await http.delete(`/comments/${id}`);
+}

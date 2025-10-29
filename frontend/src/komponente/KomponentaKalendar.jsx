@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import http from "../api/http";
 
-import { getActivitiesByDate, createActivity, updateActivity } from "../api/aktivnosti";
-import { getCommentsByDate, createComment, updateComment } from "../api/komentari";
+import { getActivitiesByDate, createActivity, updateActivity, deleteActivity } from "../api/aktivnosti";
+import { getCommentsByDate, createComment, updateComment, deleteComment } from "../api/komentari";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -16,8 +16,8 @@ export default function Kalendar() {
   const [saving, setSaving] = useState(false);
   const [existingActivityId, setExistingActivityId] = useState(null);
   const [existingCommentId, setExistingCommentId] = useState(null);
-
   const [puniDani, setPuniDani] = useState(new Set());
+
   useEffect(() => {
     (async () => {
       try {
@@ -81,14 +81,14 @@ export default function Kalendar() {
   }
 
   async function handleSaveLocal() {
-    if (!klik?.dateStr || (!selectedActivity && !(comment ?? "").trim())) return;
+    if (!klik?.dateStr) return;
+
     try {
       setSaving(true);
 
       if (selectedActivity) {
-        let activityId = existingActivityId;
-        if (activityId) {
-          await updateActivity(activityId, { activity_type: selectedActivity });
+        if (existingActivityId) {
+          await updateActivity(existingActivityId, { activity_type: selectedActivity });
         } else {
           const a = await createActivity({
             activity_date: klik.dateStr,
@@ -96,6 +96,9 @@ export default function Kalendar() {
           });
           setExistingActivityId(a.id);
         }
+      } else if (existingActivityId) {
+        await deleteActivity(existingActivityId);
+        setExistingActivityId(null);
       }
 
       const trimmed = (comment ?? "").trim();
@@ -106,19 +109,24 @@ export default function Kalendar() {
           const c = await createComment({ date: klik.dateStr, text: trimmed });
           setExistingCommentId(c.id);
         }
+      } else if (existingCommentId) {
+        await deleteComment(existingCommentId);
+        setExistingCommentId(null);
       }
 
       setPuniDani(prev => {
         const s = new Set(prev);
-        s.add(klik.dateStr);
+        const nesto = !!selectedActivity || !!(comment ?? "").trim();
+        if (nesto) s.add(klik.dateStr);
+        else s.delete(klik.dateStr);
         return s;
       });
 
-      setSaving(false);
       toast.success("Uspešno sačuvano!");
     } catch (error) {
       console.error("Greška pri čuvanju:", error);
       toast.error(error?.response?.data?.message || "Greška pri čuvanju.");
+    } finally {
       setSaving(false);
     }
   }
@@ -169,14 +177,7 @@ export default function Kalendar() {
 
               <div className="potvrda">
                 <button className="dugme-forma" onClick={closeModal} disabled={saving}>Zatvori</button>
-                <button
-                  className="dugme-forma"
-                  onClick={handleSaveLocal}
-                  disabled={saving || (!selectedActivity && !(comment ?? "").trim())}
-                  style={{ opacity: (saving || (!selectedActivity && !(comment ?? "").trim())) ? 0.6 : 1 }}
-                >
-                  {saving ? "Čuvanje..." : "Sačuvaj"}
-                </button>
+                <button className="dugme-forma" onClick={handleSaveLocal} disabled={saving}>{saving ? "Čuvanje..." : "Sačuvaj"}</button>
               </div>
             </div>
           </div>

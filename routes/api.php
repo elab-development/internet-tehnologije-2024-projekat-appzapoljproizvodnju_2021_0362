@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -40,4 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy']);
     
+    Route::middleware('role:admin')->delete('/users/{user}', [UserController::class, 'destroy']);
+    Route::middleware('role:admin')->get('/users', [UserController::class, 'index']);
 });

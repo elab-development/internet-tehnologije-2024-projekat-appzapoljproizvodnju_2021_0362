@@ -8,10 +8,8 @@ use App\Models\Plant;
 
 class PlantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request)
     {
         $query = Plant::where('user_id', $request->user()->id);
 
@@ -27,15 +25,12 @@ class PlantController extends Controller
         return response()->json($plants);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
             'variety'        => 'required|string|max:255',
             'location'       => 'nullable|string|max:255',
-            'planted_on'     => 'nullable|date',
+            'planted_at'     => 'nullable|date',
             'health_status'  => 'nullable|string|in:dobro stanje,kritično stanje,biljka je uvenula',
             'is_active'      => 'boolean',
             'last_watered_at'     => 'nullable|date',
@@ -54,18 +49,12 @@ class PlantController extends Controller
         return response()->json($plant, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $this->ensureOwner($request->user()->id, $plant->user_id);
         return response()->json($plant);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $this->ensureOwner($request->user()->id, $plant->user_id);
@@ -73,7 +62,7 @@ class PlantController extends Controller
         $data = $request->validate([
             'variety'        => 'sometimes|string|max:255',
             'location'       => 'sometimes|nullable|string|max:255',
-            'planted_on'     => 'sometimes|nullable|date',
+            'planted_at'     => 'sometimes|nullable|date',
             'health_status'  => 'sometimes|nullable|string|in:dobro stanje,kritično stanje,biljka je uvenula',
             'is_active'      => 'sometimes|boolean',
             'last_watered_at'     => 'sometimes|nullable|date',
@@ -89,9 +78,6 @@ class PlantController extends Controller
         return response()->json($plant);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $this->ensureOwner($request->user()->id, $plant->user_id);

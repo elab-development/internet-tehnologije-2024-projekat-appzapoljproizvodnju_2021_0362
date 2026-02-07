@@ -5,6 +5,8 @@ import './css/kalendar.css'
 import './css/kartice.css'
 import './css/header-footer.css'
 import './css/prognoza.css'
+import './css/admin-panel.css'
+
 import App from './App.jsx'
 
 import { AuthProvider } from "./api/AuthContext";

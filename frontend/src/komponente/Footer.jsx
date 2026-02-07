@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../api/AuthContext";
 
 function Footer() {
+    const { user } = useAuth();
+
     return(
         <section>
             <footer>
@@ -24,6 +27,10 @@ function Footer() {
                 <ul>
                     <li><strong>-BROJ TELEFONA-</strong></li>
                     <li><Link to="">-066 123 4567-</Link></li>
+
+                    {user?.role === "admin" && (
+                        <li><Link to="/admin">-Admin panel-</Link></li>
+                    )}
                 </ul>
                 <div>&copy; {new Date().getFullYear()} To-mate-o</div>
             </footer>

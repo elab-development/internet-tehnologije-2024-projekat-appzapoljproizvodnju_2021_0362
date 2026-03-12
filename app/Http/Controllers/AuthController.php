@@ -9,9 +9,32 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use OpenApi\Attributes as OA;
 
 class AuthController extends Controller
 {
+    #[OA\Get(
+        path: "/api/register",
+        summary: "Register a new user",
+        description: "Register a new user and return a token",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["name", "username", "email", "password"],
+                properties: [
+                    new OA\Property(property: "name", type: "string", example: "Test Testic"),
+                    new OA\Property(property: "username", type: "string", example: "gostttttt"),
+                    new OA\Property(property: "email", type: "string", example: "test@example.com"),
+                    new OA\Property(property: "password", type: "string", example: "password123")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 201, description: "uspesno logovanje"),
+            new OA\Response(response: 422, description: "Validation error")
+        ]
+    )]
+    
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -33,6 +56,26 @@ class AuthController extends Controller
 
         return response()->json(['user' => $user, 'token' => $token], 201);
     }
+
+    #[OA\Post(
+        path: '/api/login',
+        summary: 'Prijava korisnika',
+        tags: ['Auth'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email', 'password'],
+                properties: [
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'test@gmail.com'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password123'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'prijava uspela'),
+            new OA\Response(response: 401, description: 'neispravni podaci')
+        ]
+    )]
 
     public function login(Request $request)
     {
@@ -56,11 +99,33 @@ class AuthController extends Controller
         return response()->json(['user' => $user, 'token' => $token]);
     }
 
+    #[OA\Post(
+        path: '/api/logout',
+        summary: 'Odjava korisnika',
+        security: [['bearerAuth' => []]],
+        tags: ['Auth'],
+        responses: [
+            new OA\Response(response: 200, description: 'Uspešna odjava'),
+            new OA\Response(response: 401, description: 'Neautentifikovan korisnik')
+        ]
+    )]
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Odjavljeni ste uspešno.']);
     }
+
+    #[OA\Get(
+        path: '/api/me',
+        summary: 'Podaci o trenutno prijavljenom korisniku',
+        security: [['bearerAuth' => []]],
+        tags: ['Auth'],
+        responses: [
+            new OA\Response(response: 200, description: 'Podaci o korisniku'),
+            new OA\Response(response: 401, description: 'Neautentifikovan korisnik')
+        ]
+    )]
 
     public function me(Request $request)
     {

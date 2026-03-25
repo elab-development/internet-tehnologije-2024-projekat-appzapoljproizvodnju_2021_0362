@@ -195,4 +195,31 @@ class AuthController extends Controller
         }
         return response()->json(['message' => __($status)], 400);
     }
+
+    public function becomePremium(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->role === 'premium') {
+            return response()->json([
+                'message' => 'Korisnik je već premium.',
+                'user' => $user
+            ], 200);
+        }
+
+        if ($user->role === 'admin') {
+            return response()->json([
+                'message' => 'Admin ima pristup svim funkcionalnostima.',
+                'user' => $user
+            ], 200);
+        }
+
+        $user->role = 'premium';
+        $user->save();
+
+        return response()->json([
+            'message' => 'Uspešno ste postali premium korisnik.',
+            'user' => $user
+        ], 200);
+    }
 }

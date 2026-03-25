@@ -31,6 +31,10 @@ function Footer() {
                     {user?.role === "admin" && (
                         <li><Link to="/admin">-Admin panel-</Link></li>
                     )}
+
+                    {user?.role === "user" && (
+                        <li><Link to="/postani-premium">-Postani premium-</Link></li>
+                    )}
                 </ul>
                 <div>&copy; {new Date().getFullYear()} To-mate-o</div>
             </footer>

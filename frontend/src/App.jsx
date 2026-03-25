@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import PrivateRoute from "./api/PrivateRoute";
+import PremiumRoute from "./api/PremiumRoute";
 import AdminRoute from "./api/AdminRoute";
 import { ToastContainer } from "react-toastify";
 
@@ -18,6 +19,7 @@ import Promena from "./stranice/Promena";
 import ZaboravljenaLozinka from "./stranice/ZaboravljenaLozinka";
 import ResetLozinke from "./stranice/ResetLozinke";
 import AdminPanel from "./stranice/AdminPanel";
+import PostaniPremium from "./stranice/PostaniPremium";
 
 function App() {
   return (
@@ -36,14 +38,19 @@ function App() {
             <Route path="/reset-lozinke" element={<ResetLozinke />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path="/prognoza" element={<Prognoza />} />
               <Route path="/nalog" element={<Nalog />} />
-              <Route path="/kalendar" element={<Kalendar />} />
+              <Route path="/postani-premium" element={<PostaniPremium />} />
+
+              <Route element={<PremiumRoute />}>
+                <Route path="/prognoza" element={<Prognoza />} />
+                <Route path="/kalendar" element={<Kalendar />} />
+              </Route>
             </Route>
             
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminPanel />} />
             </Route>
+
           </Routes>
         </main>
         <Footer />

@@ -1,4 +1,7 @@
 import api from "./http";
+import axios from "axios";
+
+const API = "http://localhost:8000/api";
 
 export async function register(payload) {
   const { data } = await api.post("/register", payload);
@@ -32,4 +35,20 @@ export async function forgotPassword(email) {
 export async function resetPassword(payload) {
   const { data } = await api.post("/reset-password", payload);
   return data;
+}
+
+export async function becomePremium() {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.post(
+    `${API}/become-premium`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return res.data;
 }

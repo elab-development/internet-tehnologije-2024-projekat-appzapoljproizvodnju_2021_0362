@@ -29,6 +29,9 @@ services:
       - backend
     networks:
       - tomateo-network
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
 
   db:
     image: mysql:8.0

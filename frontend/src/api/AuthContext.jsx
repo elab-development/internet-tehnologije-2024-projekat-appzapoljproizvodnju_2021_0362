@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
       try {
         const u = await apiMe();
         setUser(u);
+        localStorage.setItem("user", JSON.stringify(u));
       } catch {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -63,7 +64,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, token, setToken, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

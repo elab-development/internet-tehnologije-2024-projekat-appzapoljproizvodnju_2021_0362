@@ -40,4 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::middleware('role:admin')->delete('/users/{user}', [UserController::class, 'destroy']);
     Route::middleware('role:admin')->get('/users', [UserController::class, 'index']);
+
+    Route::post('/become-premium', [AuthController::class, 'becomePremium']);
 });

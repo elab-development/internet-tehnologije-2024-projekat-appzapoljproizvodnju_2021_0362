@@ -133,6 +133,11 @@ form .dugme {
   width: 150px;
 }
 
+form p {
+  text-align: center;
+  margin: 0 5%;
+}
+
 label {
   font-weight: bold;
   color: rgb(81, 81, 81);

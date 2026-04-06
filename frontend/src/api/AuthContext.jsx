@@ -4,7 +4,7 @@ import { getActivitiesByDate } from "../api/aktivnosti";
 import { getCommentsByDate } from "../api/komentari";
 import { toast } from "react-toastify";
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser]   = useState(() => JSON.parse(localStorage.getItem("user") || "null"));

@@ -42,4 +42,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->get('/users', [UserController::class, 'index']);
 
     Route::post('/become-premium', [AuthController::class, 'becomePremium']);
+    Route::post('/update-picture', [UserController::class, 'updateProfilePicture']);
 });

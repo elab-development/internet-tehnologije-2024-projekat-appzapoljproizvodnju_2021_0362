@@ -27,6 +27,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         'email',
         'password',
         'role',
+        'profile_picture',
     ];
 
     public function isAdmin()

@@ -1,0 +1,65 @@
+.profil-glava {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+}
+
+.informacije {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.informacije .desno p {
+    display: flex;
+    justify-content: right;
+    margin-right: 40px;
+}
+
+.informacije .levo p {
+    display: flex;
+    margin-left: 40px;
+}
+
+.profilna-slika-sekcija {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.profilna-slika-sekcija .foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dugme-za-sliku img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.dugme-za-sliku img:hover {
+  transform: scale(1.1);
+}
+
+.profilna-slika-sekcija p {
+  margin-top: 10px;
+  font-weight: bold;
+  align-items: center;
+}

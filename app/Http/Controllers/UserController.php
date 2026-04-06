@@ -28,4 +28,20 @@ class UserController extends Controller
             200
         );
     }
+    public function updateProfilePicture(Request $request)
+    {
+        $request->validate([
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $user = $request->user();
+        $path = $request->file('profile_picture')->store('profile-pictures', 'public');
+        $user->profile_picture = '/storage/' . $path;
+        $user->save();
+        
+        return response()->json([
+            'message' => 'Profilna slika je uspešno ažurirana.',
+            'profile_picture_url' => $user->profile_picture
+        ], 200);
+    }
 }

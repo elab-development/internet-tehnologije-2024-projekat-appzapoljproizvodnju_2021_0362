@@ -50,6 +50,7 @@ class AuthController extends Controller
             'email'           => $data['email'],
             'password'        => $data['password'],
             'role'            => 'user',
+            'profile_picture' => '/profile-pictures/pocetna.png',
         ]);
 
         $token = $user->createToken('api')->plainTextToken;

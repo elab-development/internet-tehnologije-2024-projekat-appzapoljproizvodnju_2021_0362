@@ -6,6 +6,7 @@ import './css/kartice.css'
 import './css/header-footer.css'
 import './css/prognoza.css'
 import './css/admin-panel.css'
+import './css/nalog.css'
 
 import App from './App.jsx'
 

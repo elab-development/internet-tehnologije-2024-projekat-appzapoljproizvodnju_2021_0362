@@ -5,9 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Activity;
+use OpenApi\Attributes as OA;
 
 class ActivityController extends Controller
 {
+
+    #[OA\Get(
+        path: '/api/activities',
+        summary: 'Prikaz aktivnosti korisnika',
+        tags: ['Activities'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'lista aktivnosti korisnika'
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'neautentifikovan korisnik'
+            )
+        ]
+    )]
+
     public function index(Request $request)
     {
         $q = \App\Models\Activity::where('user_id', $request->user()->id);
@@ -36,7 +55,32 @@ class ActivityController extends Controller
 
         return response()->json($activity, 201);
     }
-
+#[OA\Get(
+    path: '/api/activities/{activity}',
+    summary: 'Prikaz pojedinačne aktivnosti',
+    tags: ['Activities'],
+    security: [['bearerAuth' => []]],
+    parameters: [
+        new OA\Parameter(
+            name: 'activity',
+            in: 'path',
+            required: true,
+            description: 'ID aktivnosti',
+            schema: new OA\Schema(type: 'integer'),
+            example: 1
+        )
+    ],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'podaci o aktivnosti'
+        ),
+        new OA\Response(
+            response: 401,
+            description: 'neautentifikovan korisnik'
+        )
+    ]
+)]
     public function show(Request $request, \App\Models\Activity $activity)
     {
         if ($activity->user_id !== $request->user()->id) {

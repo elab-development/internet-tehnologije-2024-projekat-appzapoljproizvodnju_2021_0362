@@ -13,10 +13,10 @@ use OpenApi\Attributes as OA;
 
 class AuthController extends Controller
 {
-    #[OA\Get(
+    #[OA\Post(
         path: "/api/register",
-        summary: "Register a new user",
-        description: "Register a new user and return a token",
+        summary: "Registracija korisnika",
+        tags: ['Auth'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -24,14 +24,14 @@ class AuthController extends Controller
                 properties: [
                     new OA\Property(property: "name", type: "string", example: "Test Testic"),
                     new OA\Property(property: "username", type: "string", example: "gostttttt"),
-                    new OA\Property(property: "email", type: "string", example: "test@example.com"),
-                    new OA\Property(property: "password", type: "string", example: "password123")
+                    new OA\Property(property: "email", type: "string", example: "test@gmail.com"),
+                    new OA\Property(property: "password", type: "string", example: "lozinka123")
                 ]
             )
         ),
         responses: [
-            new OA\Response(response: 201, description: "uspesno logovanje"),
-            new OA\Response(response: 422, description: "Validation error")
+            new OA\Response(response: 201, description: "uspesna registracija"),
+            new OA\Response(response: 422, description: "greska u registraciji")
         ]
     )]
     
@@ -67,8 +67,12 @@ class AuthController extends Controller
             content: new OA\JsonContent(
                 required: ['email', 'password'],
                 properties: [
-                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'test@gmail.com'),
-                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password123'),
+                    new OA\Property(
+                        property: 'email', type: 'string', format: 'email', example: 'test@gmail.com'
+                        ),
+                    new OA\Property(
+                        property: 'password', type: 'string', format: 'password', example: 'password123'
+                        )
                 ]
             )
         ),
@@ -123,8 +127,12 @@ class AuthController extends Controller
         security: [['bearerAuth' => []]],
         tags: ['Auth'],
         responses: [
-            new OA\Response(response: 200, description: 'Podaci o korisniku'),
-            new OA\Response(response: 401, description: 'Neautentifikovan korisnik')
+            new OA\Response(
+                response: 200, description: 'Podaci o korisniku', content: new OA\JsonContent(type: 'object')
+            ),
+            new OA\Response(
+                response: 401, description: 'Neautentifikovan korisnik'
+            )
         ]
     )]
 
@@ -132,6 +140,55 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+
+    #[OA\Post(
+        path: '/api/change-password',
+        summary: 'Promena lozinke',
+        tags: ['Auth'],
+        security: [['bearerAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: [
+                    'current_password',
+                    'password',
+                    'password_confirmation'
+                ],
+                properties: [
+                    new OA\Property(
+                        property: 'current_password',
+                        type: 'string',
+                        format: 'password'
+                    ),
+                    new OA\Property(
+                        property: 'password',
+                        type: 'string',
+                        format: 'password',
+                        minLength: 8
+                    ),
+                    new OA\Property(
+                        property: 'password_confirmation',
+                        type: 'string',
+                        format: 'password'
+                    )
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'nozinka je uspešno promenjena'
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'neulogovan korisnik'
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'neispravni podaci ili pogresna trenutna lozinka'
+            )
+        ]
+    )]
 
     public function changePassword(Request $request)
     {
@@ -152,6 +209,27 @@ class AuthController extends Controller
         return response()->json(['message' => 'Lozinka je uspešno promenjena']);
     }
 
+    #[OA\Post(
+        path: '/api/forgot-password',
+        summary: 'Zahtev za resetovanje lozinke',
+        tags: ['Auth'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email'],
+                properties: [
+                        new OA\Property(
+                            property: 'email', type: 'string', format: 'email', example: 'test@gmail.com'
+                        )
+                    ]
+                )
+            ),
+        responses: [
+            new OA\Response(response: 200, description: 'zahtev obradjen'),
+            new OA\Response(response: 422, description: 'neispravni podaci')
+        ]
+    )]
+
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => ['required','email']]);
@@ -170,6 +248,37 @@ class AuthController extends Controller
             'email'   => $user->email,
         ]);
     }
+
+    #[OA\Post(
+        path: '/api/reset-password',
+        summary: 'Resetovanje lozinke',
+        tags: ['Auth'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email', 'token', 'password', 'password_confirmation'],
+                properties: [
+                    new OA\Property(
+                        property: 'email', type: 'string', format: 'email', example: 'test@gmail.com'
+                    ),
+                    new OA\Property(
+                        property: 'token', type: 'string'
+                    ),
+                    new OA\Property(
+                        property: 'password', type:'string', minLength: 8
+                    ),
+                    new OA\Property(
+                        property: 'password_confirmation', type: 'string'
+                    )
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response (response: 200, description: 'lozinka je resetovana'),
+            new OA\Response (response: 400, description: 'resetovanje nije uspelo'),
+            new OA\Response (response: 422, description: 'neispravni podaci')
+        ]
+    )]
 
     public function resetPassword(Request $request)
     {
@@ -196,6 +305,23 @@ class AuthController extends Controller
         }
         return response()->json(['message' => __($status)], 400);
     }
+
+    #[OA\Post(
+        path: '/api/become-premium',
+        summary: 'Prelazak korisnika na premium nalog',
+        tags: ['Auth'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'korisnik je vec premium'
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'neautentifikovan korisnik'
+            )
+        ]
+    )]
 
     public function becomePremium(Request $request)
     {

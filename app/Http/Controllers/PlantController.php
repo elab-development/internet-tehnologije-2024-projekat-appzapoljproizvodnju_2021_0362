@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Plant;
 use Barryvdh\DomPDF\Facade\Pdf;
+use OpenApi\Attributes as OA;
 
 class PlantController extends Controller
 {
@@ -74,6 +75,37 @@ class PlantController extends Controller
         return response()->json($plant, 201);
     }
 
+    #[OA\Get(
+        path: '/api/plants/{plant}',
+        summary: 'Prikaz biljke',
+        tags: ['Plants'],
+        security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'plant',
+                in: 'path',
+                required: true,
+                description: 'ID biljke',
+                schema: new OA\Schema(type: 'integer'),
+                example: 1
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'podaci o biljci'
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'neautentifikovan korisnik'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'biljka nije pronađena'
+            )
+        ]
+    )]
+
     public function show(Request $request, string $id)
     {
         $plant = Plant::findOrFail($id);
@@ -120,6 +152,29 @@ class PlantController extends Controller
 
         return response()->json($plant);
     }
+    
+    #[OA\Delete(
+        path: '/api/plants/{plant}',
+        summary: 'Brisanje biljke',
+        tags: ['Plants'],
+        security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'plant',
+                in: 'path',
+                required: true,
+                description: 'ID biljke',
+                schema: new OA\Schema(type: 'integer'),
+                example: 1
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'biljka je obrisana'
+            )
+        ]
+    )]
 
     public function destroy(Request $request, string $id)
     {

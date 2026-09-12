@@ -12,11 +12,69 @@
         }
     ],
     "paths": {
-        "/api/register": {
+        "/api/activities": {
             "get": {
-                "summary": "Register a new user",
-                "description": "Register a new user and return a token",
-                "operationId": "8032147ed41401befda70c91bb84b478",
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Prikaz aktivnosti korisnika",
+                "operationId": "53e7a0b67f6097ed90245000764b2e5e",
+                "responses": {
+                    "200": {
+                        "description": "lista aktivnosti korisnika"
+                    },
+                    "401": {
+                        "description": "neautentifikovan korisnik"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/activities/{activity}": {
+            "get": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Prikaz pojedinačne aktivnosti",
+                "operationId": "51fff196ee83942690de8b440e2ddfbe",
+                "parameters": [
+                    {
+                        "name": "activity",
+                        "in": "path",
+                        "description": "ID aktivnosti",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "podaci o aktivnosti"
+                    },
+                    "401": {
+                        "description": "neautentifikovan korisnik"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registracija korisnika",
+                "operationId": "8a56853624e025573120a09a4c75d468",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -39,11 +97,11 @@
                                     },
                                     "email": {
                                         "type": "string",
-                                        "example": "test@example.com"
+                                        "example": "test@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "password123"
+                                        "example": "lozinka123"
                                     }
                                 },
                                 "type": "object"
@@ -53,10 +111,10 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "uspesno logovanje"
+                        "description": "uspesna registracija"
                     },
                     "422": {
-                        "description": "Validation error"
+                        "description": "greska u registraciji"
                     }
                 }
             }
@@ -135,10 +193,250 @@
                 "operationId": "9d9bc556f927575aa492a88c28fe5908",
                 "responses": {
                     "200": {
-                        "description": "Podaci o korisniku"
+                        "description": "Podaci o korisniku",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Neautentifikovan korisnik"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/change-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Promena lozinke",
+                "operationId": "540baf9b2324b156be71c57911de6714",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "minLength": 8
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "nozinka je uspešno promenjena"
+                    },
+                    "401": {
+                        "description": "neulogovan korisnik"
+                    },
+                    "422": {
+                        "description": "neispravni podaci ili pogresna trenutna lozinka"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Zahtev za resetovanje lozinke",
+                "operationId": "7af8817e88ba5874543ff38f188248f1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "zahtev obradjen"
+                    },
+                    "422": {
+                        "description": "neispravni podaci"
+                    }
+                }
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Resetovanje lozinke",
+                "operationId": "00c0aad74830221c6da409a1355ec736",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "token",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@gmail.com"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 8
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "lozinka je resetovana"
+                    },
+                    "400": {
+                        "description": "resetovanje nije uspelo"
+                    },
+                    "422": {
+                        "description": "neispravni podaci"
+                    }
+                }
+            }
+        },
+        "/api/become-premium": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Prelazak korisnika na premium nalog",
+                "operationId": "afb2fc6b51786e3fa95ca19bebd561d4",
+                "responses": {
+                    "200": {
+                        "description": "korisnik je vec premium"
+                    },
+                    "401": {
+                        "description": "neautentifikovan korisnik"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/plants/{plant}": {
+            "get": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Prikaz biljke",
+                "operationId": "6ce214db46790bc4016abfac89457334",
+                "parameters": [
+                    {
+                        "name": "plant",
+                        "in": "path",
+                        "description": "ID biljke",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "podaci o biljci"
+                    },
+                    "401": {
+                        "description": "neautentifikovan korisnik"
+                    },
+                    "404": {
+                        "description": "biljka nije pronađena"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Plants"
+                ],
+                "summary": "Brisanje biljke",
+                "operationId": "81eb3303dd0676cd7cf28ae887e7cbda",
+                "parameters": [
+                    {
+                        "name": "plant",
+                        "in": "path",
+                        "description": "ID biljke",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "biljka je obrisana"
                     }
                 },
                 "security": [
@@ -160,8 +458,16 @@
     },
     "tags": [
         {
+            "name": "Activities",
+            "description": "Activities"
+        },
+        {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Plants",
+            "description": "Plants"
         }
     ]
 }

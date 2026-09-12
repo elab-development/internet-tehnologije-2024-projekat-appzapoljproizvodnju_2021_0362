@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Plant;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PlantController extends Controller
 {
+    private const DB_CRITICAL_STATUS = 'kriticno stanje';
 
     public function index(Request $request)
     {
         $query = Plant::where('user_id', $request->user()->id);
 
-        if ($request->has('sort') && $request->sort === 'planted_at') {
+        if ($request->has('sort') && $request->sort === 'planted_on') {
             $direction = $request->direction === 'asc' ? 'asc' : 'desc';
-            $query->orderBy('planted_at', $direction);
+            $query->orderBy('planted_on', $direction);
         } else {
             $query->orderByDesc('created_at');
         }
@@ -27,67 +29,142 @@ class PlantController extends Controller
 
     public function store(Request $request)
     {
+        $request = $this->normalizeHealthStatus($request);
+
         $data = $request->validate([
-            'variety'        => 'required|string|max:255',
-            'location'       => 'nullable|string|max:255',
-            'planted_at'     => 'nullable|date',
-            'health_status'  => 'nullable|string|in:dobro stanje,kritično stanje,biljka je uvenula',
-            'is_active'      => 'boolean',
+            'variety'             => 'required|string|max:255',
+            'location'            => 'nullable|string|max:255',
+            'planted_on'          => 'nullable|date',
+            'health_status'       => 'nullable|string|in:dobro stanje,' . self::DB_CRITICAL_STATUS . ',biljka je uvenula',
+            'is_active'           => 'nullable|boolean',
             'last_watered_at'     => 'nullable|date',
             'next_watering_at'    => 'nullable|date',
             'last_fertilized_at'  => 'nullable|date',
             'next_fertilizing_at' => 'nullable|date',
             'watering_count'      => 'nullable|integer|min:0',
-            'fertilizing_count'   => 'nullable|integer|min:0',
-            'notes'               => 'nullable|string|max:1000',
+            'fertilizing_count'   => 'nullable|integer|min:1',
+            'notes'               => 'nullable|string|max:5000',
         ]);
 
-        $plant = Plant::create(array_merge($data, [
+        if (!empty($data['last_watered_at'])) {
+            $data['next_watering_at'] = \Carbon\Carbon::parse($data['last_watered_at'])
+                ->addDays(5)
+                ->toDateString();
+        }
+
+        if (empty($data['last_fertilized_at']) && !empty($data['planted_on'])) {
+            $data['last_fertilized_at'] = $data['planted_on'];
+        }
+
+        if (!empty($data['last_fertilized_at'])) {
+            $data['next_fertilizing_at'] = \Carbon\Carbon::parse($data['last_fertilized_at'])
+                ->addDays(14)
+                ->toDateString();
+        }
+
+        $plant = Plant::create(array_merge([
+            'is_active' => true,
+            'health_status' => 'dobro stanje',
+            'watering_count' => 0,
+            'fertilizing_count' => 1,
+        ], $data, [
             'user_id' => $request->user()->id,
         ]));
 
         return response()->json($plant, 201);
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        $plant = Plant::findOrFail($id);
         $this->ensureOwner($request->user()->id, $plant->user_id);
+
         return response()->json($plant);
     }
 
     public function update(Request $request, string $id)
     {
+        $plant = Plant::findOrFail($id);
+
         $this->ensureOwner($request->user()->id, $plant->user_id);
+        $request = $this->normalizeHealthStatus($request);
 
         $data = $request->validate([
-            'variety'        => 'sometimes|string|max:255',
-            'location'       => 'sometimes|nullable|string|max:255',
-            'planted_at'     => 'sometimes|nullable|date',
-            'health_status'  => 'sometimes|nullable|string|in:dobro stanje,kritično stanje,biljka je uvenula',
-            'is_active'      => 'sometimes|boolean',
-            'last_watered_at'     => 'sometimes|nullable|date',
-            'next_watering_at'    => 'sometimes|nullable|date',
-            'last_fertilized_at'  => 'sometimes|nullable|date',
-            'next_fertilizing_at' => 'sometimes|nullable|date',
-            'watering_count'      => 'sometimes|integer|min:0',
-            'fertilizing_count'   => 'sometimes|integer|min:0',
-            'notes'               => 'sometimes|nullable|string|max:5000',
+            'variety'              => 'sometimes|string|max:255',
+            'location'             => 'sometimes|nullable|string|max:255',
+            'planted_on'           => 'sometimes|nullable|date',
+            'health_status'        => 'sometimes|nullable|string|in:dobro stanje,' . self::DB_CRITICAL_STATUS . ',biljka je uvenula',
+            'is_active'            => 'sometimes|boolean',
+            'last_watered_at'      => 'sometimes|nullable|date',
+            'next_watering_at'     => 'sometimes|nullable|date',
+            'last_fertilized_at'   => 'sometimes|nullable|date',
+            'next_fertilizing_at'  => 'sometimes|nullable|date',
+            'watering_count'       => 'sometimes|integer|min:0',
+            'fertilizing_count'    => 'sometimes|integer|min:0',
+            'notes'                => 'sometimes|nullable|string|max:5000',
         ]);
+        
+        if (!empty($data['last_watered_at'])) {
+            $data['next_watering_at'] = \Carbon\Carbon::parse($data['last_watered_at'])
+                ->addDays(5)
+                ->toDateString();
+        }
+
+        if (!empty($data['last_fertilized_at'])) {
+            $data['next_fertilizing_at'] = \Carbon\Carbon::parse($data['last_fertilized_at'])
+                ->addDays(14)
+                ->toDateString();
+        }
 
         $plant->update($data);
+
         return response()->json($plant);
     }
 
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
+        $plant = Plant::findOrFail($id);
+
         $this->ensureOwner($request->user()->id, $plant->user_id);
+
         $plant->delete();
 
-        return response()->json(['message' => 'Deleted']);
+        return response()->json([
+            'message' => 'Biljka je uspešno obrisana'
+        ]);
     }
 
     private function ensureOwner(int $authUserId, int $ownerId): void
     {
         abort_if($authUserId !== $ownerId, 403, 'Forbidden');
     }
+
+    private function normalizeHealthStatus(Request $request): Request
+    {
+        $value = $request->input('health_status');
+
+        if (in_array($value, ['kriticno stanje', 'kriticno stanje', 'kritično stanje', 'kriti??no stanje'], true)) {
+            $request->merge([
+                'health_status' => self::DB_CRITICAL_STATUS,
+            ]);
+        }
+
+        return $request;
+    }
+
+    public function downloadPdf(Request $request, string $id)
+    {
+        $plant = Plant::findOrFail($id);
+        $this->ensureOwner($request->user()->id, $plant->user_id);
+
+        $pdf = Pdf::loadView('plant_pdf', [
+            'plant' => $plant,
+        ]);
+
+        return $pdf->download('plant_' . $plant->id . '.pdf');
+    }
+
 }
+
+
+

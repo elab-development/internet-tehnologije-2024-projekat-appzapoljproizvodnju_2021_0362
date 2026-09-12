@@ -11,7 +11,7 @@ class Plant extends Model
         'variety',
         'location',
         'is_active',
-        'planted_at',
+        'planted_on',
         'last_watered_at',
         'next_watering_at',
         'last_fertilized_at',
@@ -24,7 +24,7 @@ class Plant extends Model
 
     protected $casts = [
         'is_active'          => 'boolean',
-        'planted_at'         => 'date',
+        'planted_on'         => 'date',
         'last_watered_at'    => 'date',
         'next_watering_at'   => 'date',
         'last_fertilized_at' => 'date',

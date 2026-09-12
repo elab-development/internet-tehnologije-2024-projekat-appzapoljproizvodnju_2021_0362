@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../api/AuthContext";
 import http from "../api/http";
+import { toast } from "react-toastify";
 
 export default function ProfilGlava() {
     const { user, setUser } = useContext(AuthContext);
@@ -23,6 +24,7 @@ export default function ProfilGlava() {
 
         setUser(noviUser);
         localStorage.setItem("user", JSON.stringify(noviUser));
+        toast.success(response.data.message);
     }
 
     return(

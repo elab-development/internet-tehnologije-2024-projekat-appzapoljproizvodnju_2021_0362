@@ -11,20 +11,30 @@
 }
 
 .informacije {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.informacije .desno {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: flex-end;
+}
+
+.informacije .levo {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
 }
 
 .informacije .desno p {
-    display: flex;
-    justify-content: right;
-    margin-right: 40px;
+  margin-right: 40px;
 }
 
 .informacije .levo p {
-    display: flex;
-    margin-left: 40px;
+  margin-left: 40px;
 }
 
 .profilna-slika-sekcija {
@@ -62,4 +72,56 @@
   margin-top: 10px;
   font-weight: bold;
   align-items: center;
+}
+
+.lista-biljaka {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 20px auto;
+}
+
+.forma-promena {
+    background-color: rgb(212, 255, 254);
+}
+
+.paginacija-biljaka {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.paginacija-biljaka button {
+    padding: 12px;
+    background-color: #eb949e;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.paginacija-biljaka button:hover {
+    background-color: #68d3d1;
+}
+
+.paginacija-biljaka button:disabled {
+    background-color: #a9a9a9;
+    cursor: not-allowed;
+}
+
+.paginacija-biljaka p {
+    color: white;
+    background-color: #68d3d1;
+    padding: 8px 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 1000px;    
+}
+
+.izmeni-preuzmi {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }

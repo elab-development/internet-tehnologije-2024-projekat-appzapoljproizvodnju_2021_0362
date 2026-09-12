@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     
     Route::apiResource('plants', PlantController::class);
+    Route::get('/plants/{id}/pdf', [PlantController::class, 'downloadPdf']);
     
     Route::get('/activities', [\App\Http\Controllers\ActivityController::class, 'index']);
     Route::post('/activities', [\App\Http\Controllers\ActivityController::class, 'store']);

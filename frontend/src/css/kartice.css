@@ -1,0 +1,61 @@
+.sve-kartice {
+
+    margin: 0 2vw;
+}
+
+.kartice {
+    display: flex;
+    width: 100%;
+    height: 60vh;
+    margin: 5vh auto;
+    transition: 0.3s ease;
+}
+
+.kartice:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.kartice:hover {
+    transform: scale(1.04);
+}
+
+.kartice img {
+    width: 20vw;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+}
+
+.kartice .tekst {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #f7f7f7;
+    border-radius: 100px;
+    padding: 3% 5%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+}
+
+.kartice .tekst h2 {
+    display: flex;
+    flex: 0.2;
+    justify-content: center;
+    font-size: 2vw;
+    text-align: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.kartice .tekst p {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 1.3vw;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,127 @@
+.profil-glava {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+}
+
+.informacije {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.informacije .desno {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: flex-end;
+}
+
+.informacije .levo {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.informacije .desno p {
+  margin-right: 40px;
+}
+
+.informacije .levo p {
+  margin-left: 40px;
+}
+
+.profilna-slika-sekcija {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.profilna-slika-sekcija .foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dugme-za-sliku img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.dugme-za-sliku img:hover {
+  transform: scale(1.1);
+}
+
+.profilna-slika-sekcija p {
+  margin-top: 10px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.lista-biljaka {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 20px auto;
+}
+
+.forma-promena {
+    background-color: rgb(212, 255, 254);
+}
+
+.paginacija-biljaka {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.paginacija-biljaka button {
+    padding: 12px;
+    background-color: #eb949e;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.paginacija-biljaka button:hover {
+    background-color: #68d3d1;
+}
+
+.paginacija-biljaka button:disabled {
+    background-color: #a9a9a9;
+    cursor: not-allowed;
+}
+
+.paginacija-biljaka p {
+    color: white;
+    background-color: #68d3d1;
+    padding: 8px 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 1000px;    
+}
+
+.izmeni-preuzmi {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
